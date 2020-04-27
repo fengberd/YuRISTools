@@ -1,0 +1,114 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using System.Collections.Generic;
+
+using YuRIS.Package;
+
+namespace YuRISTools
+{
+    public partial class MainForm : Form
+    {
+        public IDictionary<string, object> SCX_Patch = null;
+
+        public MainForm()
+        {
+            InitializeComponent();
+        }
+
+        public void Log(string data)
+        {
+            textBox_log.AppendText(DateTime.Now.ToString("t") + " " + data + "\n");
+        }
+
+        public void Oops(Exception e)
+        {
+            Log(e.ToString());
+            MessageBox.Show(e.ToString(), "Oops", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void textBox_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop) || e.Data.GetDataPresent(DataFormats.Text))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void textBox_DragDrop(object sender, DragEventArgs e)
+        {
+            var box = sender as TextBox;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                box.Text = (e.Data.GetData(DataFormats.FileDrop) as string[])[0];
+            }
+            else if (e.Data.GetDataPresent(DataFormats.Text))
+            {
+                box.Text = e.Data.GetData(DataFormats.Text) as string;
+            }
+        }
+
+        private void button_ypf_unpack_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var files = new List<string>();
+                if (Directory.Exists(textBox_ypf_unpack_input.Text))
+                {
+                    files.AddRange(Directory.GetFiles(textBox_ypf_unpack_input.Text)
+                        .Where(f => f.EndsWith(".ypf", StringComparison.CurrentCultureIgnoreCase)));
+                }
+                else
+                {
+                    files.Add(textBox_ypf_unpack_input.Text);
+                }
+                foreach (var file in files)
+                {
+                    Log("[YPF Unpack] Unpacking " + Path.GetFileName(file) + " ...");
+                    var output = Path.Combine(textBox_ypf_unpack_output.Text, Path.GetFileNameWithoutExtension(file));
+                    Directory.CreateDirectory(output);
+                    using (var reader = new BinaryReader(File.OpenRead(file)))
+                    {
+                        var ypf = YPF.ReadFile(reader);
+                        Log("[YPF Unpack] Found " + ypf.Entries.Count + " entries.");
+                        foreach (var entry in ypf.Entries)
+                        {
+                            Log("[YPF Unpack] Unpacking " + entry.Name + "(" + entry.Size + ") ...");
+                            File.WriteAllBytes(Path.Combine(output, entry.Name), entry.Data);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) { Oops(ex); }
+        }
+
+        private void button_ypf_pack_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var ypf = new YPF();
+                foreach (var file in Directory.GetFiles(textBox_ypf_pack_input.Text).OrderBy(f => f))
+                {
+                    if (checkBox_ypf_pack_ignore_bak.Checked && file.EndsWith(".bak"))
+                    {
+                        continue;
+                    }
+                    ypf.Entries.Add(new YPFEntry(Path.GetFileName(file), File.ReadAllBytes(file)));
+                }
+                Log("[YPF Pack] Created " + ypf.Entries.Count + " entries.");
+                var target = textBox_ypf_pack_output.Text;
+                if (Directory.Exists(target))
+                {
+                    target = Path.Combine(target, Path.GetFileName(textBox_ypf_pack_input.Text) + ".ypf");
+                }
+                using (var writer = new BinaryWriter(File.Open(target, FileMode.Create)))
+                {
+                    ypf.Write(writer);
+                    Log("[YPF Pack] Write success, size: " + writer.BaseStream.Position + ", target: " + target);
+                }
+            }
+            catch (Exception ex) { Oops(ex); }
+        }
+    }
+}

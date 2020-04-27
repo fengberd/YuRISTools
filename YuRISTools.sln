@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1022
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuRISTools", "YuRISTools\YuRISTools.csproj", "{A88829F3-B7DA-438B-ACB9-963BA17C39EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuRISLib", "YuRISLib\YuRISLib.csproj", "{F35F186C-E60A-4562-B263-61E597B36692}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A88829F3-B7DA-438B-ACB9-963BA17C39EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A88829F3-B7DA-438B-ACB9-963BA17C39EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A88829F3-B7DA-438B-ACB9-963BA17C39EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A88829F3-B7DA-438B-ACB9-963BA17C39EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F35F186C-E60A-4562-B263-61E597B36692}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F35F186C-E60A-4562-B263-61E597B36692}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F35F186C-E60A-4562-B263-61E597B36692}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F35F186C-E60A-4562-B263-61E597B36692}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67A798C6-6CFC-4C2C-AB24-3B93AAF73AEE}
+	EndGlobalSection
+EndGlobal
