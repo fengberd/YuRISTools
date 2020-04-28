@@ -66,7 +66,7 @@ namespace YuRISTools
                 foreach (var file in files)
                 {
                     Log("[YPF Unpack] Unpacking " + Path.GetFileName(file) + " ...");
-                    var output = Path.Combine(textBox_ypf_unpack_output.Text, Path.GetFileNameWithoutExtension(file));
+                    var output = textBox_ypf_unpack_output.Text;
                     Directory.CreateDirectory(output);
                     using (var reader = new BinaryReader(File.OpenRead(file)))
                     {
@@ -75,10 +75,13 @@ namespace YuRISTools
                         foreach (var entry in ypf.Entries)
                         {
                             Log("[YPF Unpack] Unpacking " + entry.Name + "(" + entry.Size + ") ...");
-                            File.WriteAllBytes(Path.Combine(output, entry.Name), entry.Data);
+                            var path = Path.Combine(output, entry.Name);
+                            Directory.CreateDirectory(Path.GetDirectoryName(path));
+                            File.WriteAllBytes(path, entry.Data);
                         }
                     }
                 }
+                Log("[YPF Unpack] Complete, unpacked " + files.Count + " files.");
             }
             catch (Exception ex) { Oops(ex); }
         }
