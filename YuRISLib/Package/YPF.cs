@@ -3,6 +3,7 @@ using System.Text;
 using System.Linq;
 using System.IO.Compression;
 using System.Collections.Generic;
+using System;
 
 namespace YuRIS.Package
 {
@@ -19,6 +20,52 @@ namespace YuRIS.Package
         static YPF()
         {
             NameLengthTable.ToList().ForEach(kv => NameLengthTable.Add(kv.Value, kv.Key));
+        }
+
+        public static uint MurmurHash2(byte[] data, uint seed = 0)
+        {
+            // https://github.com/abrandoned/murmur2/blob/master/MurmurHash2.c
+            const uint m = 0x5bd1e995;
+            const int r = 24;
+
+            int len = data.Length;
+            uint h = seed ^ (uint)len;
+
+            int index = 0;
+            while (len >= 4)
+            {
+                uint k = BitConverter.ToUInt32(data, index);
+
+                k *= m;
+                k ^= k >> r;
+                k *= m;
+
+                h *= m;
+                h ^= k;
+
+                index += 4;
+                len -= 4;
+            }
+
+            if(len != 0)
+            {
+                if (len > 2)
+                {
+                    h ^= (uint)(data[index+2] << 16);
+                }
+                if (len > 1)
+                {
+                    h ^= (uint)(data[index+1] << 8);
+                }
+                h ^= data[index];
+                h *= m;
+            }
+
+            h ^= h >> 13;
+            h *= m;
+            h ^= h >> 15;
+
+            return h;
         }
 
         public static YPF ReadFile(BinaryReader reader)
@@ -46,16 +93,22 @@ namespace YuRIS.Package
             List<long> offsets = new List<long>();
             for (int i = 0; i < count; i++)
             {
-                int hash = reader.ReadInt32();
+                uint hash = reader.ReadUInt32();
                 int length = 255 - reader.ReadByte();
                 if (NameLengthTable.ContainsKey(length))
                 {
                     length = NameLengthTable[length];
                 }
 
+                var name = reader.ReadBytes(length).Select(c => (byte)~c).ToArray();
+                if(MurmurHash2(name)!=hash)
+                {
+                    throw new InvalidDataException("File name hash mismatch");
+                }
+
                 var entry = new YPFEntry()
                 {
-                    Name = Encoding.GetEncoding("SHIFT-JIS").GetString(reader.ReadBytes(length).Select(c => (byte)~c).ToArray()),
+                    Name = Encoding.GetEncoding("SHIFT-JIS").GetString(name),
                     Type = (YPFEntryType)reader.ReadByte(),
                     Compressed = reader.ReadByte() != 0,
                     Size = reader.ReadInt32(),
@@ -68,23 +121,28 @@ namespace YuRIS.Package
                     throw new InvalidDataException("YPF structure mismatch");
                 }
                 offsets.Add(reader.ReadInt64());
-
-                hash = reader.ReadInt32();
+                entry.Hash = reader.ReadUInt32();
             }
             for (int i = 0; i < count; i++)
             {
                 reader.BaseStream.Position = offsets[i];
                 var entry = result.Entries[i];
+                var data = reader.ReadBytes(entry.CompressedSize);
+                if (MurmurHash2(data) != entry.Hash)
+                {
+                    throw new InvalidDataException("File data hash mismatch");
+                }
                 if (entry.Compressed)
                 {
-                    if (reader.ReadByte() != 0x78)
+                    if (data[0] != 0x78)
                     {
                         throw new InvalidDataException("Invalid compressed data");
                     }
-                    reader.ReadByte();
                     using (var ms = new MemoryStream())
-                    using (var deflate = new DeflateStream(new MemoryStream(reader.ReadBytes(entry.CompressedSize - 2)), CompressionMode.Decompress, false))
+                    using (var input = new MemoryStream(data))
+                    using (var deflate = new DeflateStream(input, CompressionMode.Decompress, false))
                     {
+                        input.Position = 2;
                         deflate.CopyTo(ms);
                         if (ms.Length != entry.Size)
                         {
@@ -95,7 +153,7 @@ namespace YuRIS.Package
                 }
                 else
                 {
-                    entry.SetData(reader.ReadBytes(entry.Size));
+                    entry.SetData(data);
                 }
             }
             return result;
@@ -108,11 +166,13 @@ namespace YuRIS.Package
             writer.Write(YPFHeader);
             writer.Write(490);
             writer.Write(Entries.Count);
+            writer.BaseStream.Position = 32;
 
             List<long> entryPosition = new List<long>();
-            foreach (var entry in Entries)
+            foreach(var entry in Entries)
             {
-                // TODO: Write Hash
+                var name = Encoding.GetEncoding("SHIFT-JIS").GetBytes(entry.Name);
+                writer.Write(MurmurHash2(name));
 
                 int length = entry.Name.Length;
                 if (NameLengthTable.ContainsKey(length))
@@ -120,47 +180,46 @@ namespace YuRIS.Package
                     length = NameLengthTable[length];
                 }
                 writer.Write((byte)(255 - length));
-                writer.Write(Encoding.GetEncoding("SHIFT-JIS").GetBytes(entry.Name).Select(c => (byte)~c).ToArray());
+                writer.Write(name.Select(c => (byte)~c).ToArray());
 
                 writer.Write((byte)entry.Type);
                 writer.Write(entry.Compressed);
+                writer.Write(entry.Size);
 
-                writer.Write((long)entry.Size);
                 entryPosition.Add(writer.BaseStream.Position);
-                writer.Write((long)entry.Size); // Compressed size, placeholder
-
-                var name = Encoding.UTF8.GetBytes(entry.Name);
-                writer.Write(name, 0, name.Length);
+                writer.Write(0); // Compressed size placeholder
+                writer.Write(0L); // Data offset placeholder
+                writer.Write(0); // Hash placeholder
             }
 
-            long dataOffset = writer.BaseStream.Position;
             for (int i = 0; i < Entries.Count; i++)
             {
-                writer.BaseStream.Position = dataOffset;
-
                 var entry = Entries[i];
+                var data = entry.Data;
                 if (entry.Compressed)
                 {
-                    writer.Write(0x78);
-                    writer.Write(0x9C);
-                    using (var deflate = new DeflateStream(writer.BaseStream, CompressionMode.Compress, true))
+                    using (var ms = new MemoryStream())
                     {
-                        deflate.Write(entry.Data, 0, entry.Size);
+                        ms.WriteByte(0x78);
+                        ms.WriteByte(0x9C);
+                        using (var deflate = new DeflateStream(ms, CompressionMode.Compress, true))
+                        {
+                            deflate.Write(entry.Data, 0, entry.Size);
+                        }
+                        data = ms.ToArray();
                     }
                 }
-                else
-                {
-                    writer.Write(entry.Data, 0, entry.Size);
-                }
+                writer.Write(data);
 
-                entry.CompressedSize = (int)(writer.BaseStream.Position - dataOffset);
-                dataOffset = writer.BaseStream.Position;
-
+                long dataOffset = writer.BaseStream.Position;
                 writer.BaseStream.Position = entryPosition[i];
-                writer.Write(entry.CompressedSize);
-                writer.Write(dataOffset);
 
-                // TODO: Write another Hash
+                entry.CompressedSize = data.Length;
+                writer.Write(entry.CompressedSize);
+                writer.Write(dataOffset - data.Length);
+                writer.Write(MurmurHash2(data));
+
+                writer.BaseStream.Position = dataOffset;
             }
         }
     }

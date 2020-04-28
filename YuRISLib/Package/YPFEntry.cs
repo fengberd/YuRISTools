@@ -6,6 +6,7 @@
         public string Name;
         public byte[] Data { get; private set; }
 
+        public uint Hash = 0;
         public bool Compressed = false;
         public int CompressedSize = 0;
 

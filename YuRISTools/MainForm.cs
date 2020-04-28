@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 
 using YuRIS.Package;
+using System.Threading;
 
 namespace YuRISTools
 {
@@ -19,6 +20,11 @@ namespace YuRISTools
 
         public void Log(string data)
         {
+            if(InvokeRequired)
+            {
+                Invoke(new Action(() => Log(data)));
+                return;
+            }
             textBox_log.AppendText(DateTime.Now.ToString("t") + " " + data + "\n");
         }
 
@@ -51,39 +57,43 @@ namespace YuRISTools
 
         private void button_ypf_unpack_Click(object sender, EventArgs e)
         {
-            try
+            var files = new List<string>();
+            if (Directory.Exists(textBox_ypf_unpack_input.Text))
             {
-                var files = new List<string>();
-                if (Directory.Exists(textBox_ypf_unpack_input.Text))
+                files.AddRange(Directory.GetFiles(textBox_ypf_unpack_input.Text)
+                    .Where(f => f.EndsWith(".ypf", StringComparison.CurrentCultureIgnoreCase)));
+            }
+            else
+            {
+                files.Add(textBox_ypf_unpack_input.Text);
+            }
+            groupBox1.Enabled = false;
+            var output = textBox_ypf_unpack_output.Text;
+            ThreadPool.QueueUserWorkItem(s =>
+            {
+                try
                 {
-                    files.AddRange(Directory.GetFiles(textBox_ypf_unpack_input.Text)
-                        .Where(f => f.EndsWith(".ypf", StringComparison.CurrentCultureIgnoreCase)));
-                }
-                else
-                {
-                    files.Add(textBox_ypf_unpack_input.Text);
-                }
-                foreach (var file in files)
-                {
-                    Log("[YPF Unpack] Unpacking " + Path.GetFileName(file) + " ...");
-                    var output = textBox_ypf_unpack_output.Text;
-                    Directory.CreateDirectory(output);
-                    using (var reader = new BinaryReader(File.OpenRead(file)))
+                    foreach (var file in files)
                     {
-                        var ypf = YPF.ReadFile(reader);
-                        Log("[YPF Unpack] Found " + ypf.Entries.Count + " entries.");
-                        foreach (var entry in ypf.Entries)
+                        Log("[YPF Unpack] Unpacking " + Path.GetFileName(file) + " ...");
+                        using (var reader = new BinaryReader(File.OpenRead(file)))
                         {
-                            Log("[YPF Unpack] Unpacking " + entry.Name + "(" + entry.Size + ") ...");
-                            var path = Path.Combine(output, entry.Name);
-                            Directory.CreateDirectory(Path.GetDirectoryName(path));
-                            File.WriteAllBytes(path, entry.Data);
+                            var ypf = YPF.ReadFile(reader);
+                            Log("[YPF Unpack] Found " + ypf.Entries.Count + " entries.");
+                            foreach (var entry in ypf.Entries)
+                            {
+                                Log("[YPF Unpack] Unpacking " + entry.Name + "(" + entry.Size + ") ...");
+                                var path = Path.Combine(output, Path.GetFileNameWithoutExtension(file), entry.Name);
+                                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                                File.WriteAllBytes(path, entry.Data);
+                            }
                         }
                     }
+                    Log("[YPF Unpack] Complete, unpacked " + files.Count + " files.");
                 }
-                Log("[YPF Unpack] Complete, unpacked " + files.Count + " files.");
-            }
-            catch (Exception ex) { Oops(ex); }
+                catch (Exception ex) { Oops(ex); }
+                Invoke(new Action(() => groupBox1.Enabled = true));
+            });
         }
 
         private void button_ypf_pack_Click(object sender, EventArgs e)
@@ -91,13 +101,13 @@ namespace YuRISTools
             try
             {
                 var ypf = new YPF();
-                foreach (var file in Directory.GetFiles(textBox_ypf_pack_input.Text).OrderBy(f => f))
+                foreach (var file in Directory.GetFiles(textBox_ypf_pack_input.Text,"*",SearchOption.AllDirectories).OrderBy(f => f))
                 {
                     if (checkBox_ypf_pack_ignore_bak.Checked && file.EndsWith(".bak"))
                     {
                         continue;
                     }
-                    ypf.Entries.Add(new YPFEntry(Path.GetFileName(file), File.ReadAllBytes(file)));
+                    ypf.Entries.Add(new YPFEntry(file.Replace(Path.GetFullPath(textBox_ypf_pack_input.Text) + "\\", ""), File.ReadAllBytes(file)));
                 }
                 Log("[YPF Pack] Created " + ypf.Entries.Count + " entries.");
                 var target = textBox_ypf_pack_output.Text;
