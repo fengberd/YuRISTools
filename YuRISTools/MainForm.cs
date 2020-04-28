@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
 using YuRIS.Package;
-using System.Threading;
 
 namespace YuRISTools
 {
@@ -101,13 +101,18 @@ namespace YuRISTools
             try
             {
                 var ypf = new YPF();
+                HashSet<string> non_compress = new HashSet<string>(textBox_ypf_pack_no_compress.Text.ToLower().Split('/').Where(s => s.Trim() != "")),
+                    non_packing = new HashSet<string>(textBox_ypf_pack_no_packing.Text.ToLower().Split('/').Where(s => s.Trim() != ""));
                 foreach (var file in Directory.GetFiles(textBox_ypf_pack_input.Text,"*",SearchOption.AllDirectories).OrderBy(f => f))
                 {
-                    if (checkBox_ypf_pack_ignore_bak.Checked && file.EndsWith(".bak"))
+                    if (non_packing.Contains(Path.GetExtension(file).ToLower()))
                     {
                         continue;
                     }
-                    ypf.Entries.Add(new YPFEntry(file.Replace(Path.GetFullPath(textBox_ypf_pack_input.Text) + "\\", ""), File.ReadAllBytes(file)));
+                    ypf.Entries.Add(new YPFEntry(file.Replace(Path.GetFullPath(textBox_ypf_pack_input.Text) + "\\", ""), File.ReadAllBytes(file))
+                    {
+                        Compressed = !non_compress.Contains(Path.GetExtension(file).ToLower())
+                    });
                 }
                 Log("[YPF Pack] Created " + ypf.Entries.Count + " entries.");
                 var target = textBox_ypf_pack_output.Text;

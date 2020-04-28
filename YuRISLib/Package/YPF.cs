@@ -201,8 +201,8 @@ namespace YuRIS.Package
                     using (var ms = new MemoryStream())
                     {
                         ms.WriteByte(0x78);
-                        ms.WriteByte(0x9C);
-                        using (var deflate = new DeflateStream(ms, CompressionMode.Compress, true))
+                        ms.WriteByte(0xDA);
+                        using (var deflate = new DeflateStream(ms, CompressionLevel.Optimal, true))
                         {
                             deflate.Write(entry.Data, 0, entry.Size);
                         }

@@ -34,7 +34,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox_ypf_pack_ignore_bak = new System.Windows.Forms.CheckBox();
             this.button_ypf_pack = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox_ypf_pack_output = new System.Windows.Forms.TextBox();
@@ -47,6 +46,10 @@
             this.label7 = new System.Windows.Forms.Label();
             this.textBox_ypf_unpack_input = new System.Windows.Forms.TextBox();
             this.textBox_log = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox_ypf_pack_no_compress = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox_ypf_pack_no_packing = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -62,7 +65,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(588, 192);
+            this.tabControl1.Size = new System.Drawing.Size(588, 246);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -102,14 +105,17 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(580, 166);
+            this.tabPage2.Size = new System.Drawing.Size(580, 220);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "YPF Tool";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.checkBox_ypf_pack_ignore_bak);
+            this.groupBox2.Controls.Add(this.textBox_ypf_pack_no_packing);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.textBox_ypf_pack_no_compress);
             this.groupBox2.Controls.Add(this.button_ypf_pack);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.textBox_ypf_pack_output);
@@ -117,26 +123,14 @@
             this.groupBox2.Controls.Add(this.textBox_ypf_pack_input);
             this.groupBox2.Location = new System.Drawing.Point(6, 86);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(568, 74);
+            this.groupBox2.Size = new System.Drawing.Size(568, 128);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Pack";
             // 
-            // checkBox_ypf_pack_ignore_bak
-            // 
-            this.checkBox_ypf_pack_ignore_bak.AutoSize = true;
-            this.checkBox_ypf_pack_ignore_bak.Checked = true;
-            this.checkBox_ypf_pack_ignore_bak.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_ypf_pack_ignore_bak.Location = new System.Drawing.Point(472, 22);
-            this.checkBox_ypf_pack_ignore_bak.Name = "checkBox_ypf_pack_ignore_bak";
-            this.checkBox_ypf_pack_ignore_bak.Size = new System.Drawing.Size(90, 16);
-            this.checkBox_ypf_pack_ignore_bak.TabIndex = 10;
-            this.checkBox_ypf_pack_ignore_bak.Text = "Ignore .bak";
-            this.checkBox_ypf_pack_ignore_bak.UseVisualStyleBackColor = true;
-            // 
             // button_ypf_pack
             // 
-            this.button_ypf_pack.Location = new System.Drawing.Point(487, 47);
+            this.button_ypf_pack.Location = new System.Drawing.Point(487, 20);
             this.button_ypf_pack.Name = "button_ypf_pack";
             this.button_ypf_pack.Size = new System.Drawing.Size(75, 21);
             this.button_ypf_pack.TabIndex = 9;
@@ -177,7 +171,7 @@
             this.textBox_ypf_pack_input.AllowDrop = true;
             this.textBox_ypf_pack_input.Location = new System.Drawing.Point(59, 20);
             this.textBox_ypf_pack_input.Name = "textBox_ypf_pack_input";
-            this.textBox_ypf_pack_input.Size = new System.Drawing.Size(407, 21);
+            this.textBox_ypf_pack_input.Size = new System.Drawing.Size(422, 21);
             this.textBox_ypf_pack_input.TabIndex = 5;
             this.textBox_ypf_pack_input.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ypf_pack_input.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
@@ -198,7 +192,7 @@
             // 
             // button_ypf_unpack
             // 
-            this.button_ypf_unpack.Location = new System.Drawing.Point(487, 47);
+            this.button_ypf_unpack.Location = new System.Drawing.Point(487, 20);
             this.button_ypf_unpack.Name = "button_ypf_unpack";
             this.button_ypf_unpack.Size = new System.Drawing.Size(75, 21);
             this.button_ypf_unpack.TabIndex = 14;
@@ -250,12 +244,48 @@
             this.textBox_log.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.textBox_log.Font = new System.Drawing.Font("Consolas", 10F);
             this.textBox_log.ForeColor = System.Drawing.Color.Silver;
-            this.textBox_log.Location = new System.Drawing.Point(0, 193);
+            this.textBox_log.Location = new System.Drawing.Point(0, 244);
             this.textBox_log.Multiline = true;
             this.textBox_log.Name = "textBox_log";
             this.textBox_log.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_log.Size = new System.Drawing.Size(588, 245);
+            this.textBox_log.Size = new System.Drawing.Size(588, 194);
             this.textBox_log.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 77);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(149, 12);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Non-Compress Extensions:";
+            // 
+            // textBox_ypf_pack_no_compress
+            // 
+            this.textBox_ypf_pack_no_compress.AllowDrop = true;
+            this.textBox_ypf_pack_no_compress.Location = new System.Drawing.Point(161, 74);
+            this.textBox_ypf_pack_no_compress.Name = "textBox_ypf_pack_no_compress";
+            this.textBox_ypf_pack_no_compress.Size = new System.Drawing.Size(320, 21);
+            this.textBox_ypf_pack_no_compress.TabIndex = 11;
+            this.textBox_ypf_pack_no_compress.Text = "png/gif/wav/ogg/psb";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 104);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(143, 12);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Non-Packing Extensions:";
+            // 
+            // textBox_ypf_pack_no_packing
+            // 
+            this.textBox_ypf_pack_no_packing.AllowDrop = true;
+            this.textBox_ypf_pack_no_packing.Location = new System.Drawing.Point(161, 101);
+            this.textBox_ypf_pack_no_packing.Name = "textBox_ypf_pack_no_packing";
+            this.textBox_ypf_pack_no_packing.Size = new System.Drawing.Size(320, 21);
+            this.textBox_ypf_pack_no_packing.TabIndex = 14;
+            this.textBox_ypf_pack_no_packing.Text = "exe/dll/mpg/avi/swf/yst/txt/bat/sd/db/vix/bak";
             // 
             // MainForm
             // 
@@ -300,7 +330,10 @@
         private System.Windows.Forms.TextBox textBox_ypf_unpack_input;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.CheckBox checkBox_ypf_pack_ignore_bak;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox_ypf_pack_no_compress;
+        private System.Windows.Forms.TextBox textBox_ypf_pack_no_packing;
     }
 }
 
