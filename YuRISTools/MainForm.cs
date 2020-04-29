@@ -90,9 +90,10 @@ namespace YuRISTools
             var output = textBox_ypf_unpack_output.Text;
             ThreadPool.QueueUserWorkItem(s =>
             {
-                try
+                int success = 0;
+                foreach (var file in files)
                 {
-                    foreach (var file in files)
+                    try
                     {
                         Log("[YPF Unpack] Unpacking " + Path.GetFileName(file) + " ...");
                         using (var reader = new BinaryReader(File.OpenRead(file)))
@@ -107,10 +108,11 @@ namespace YuRISTools
                                 File.WriteAllBytes(path, entry.Data);
                             }
                         }
+                        success++;
                     }
-                    Log("[YPF Unpack] Complete, unpacked " + files.Count + " files.");
+                    catch (Exception ex) { Oops(ex); }
                 }
-                catch (Exception ex) { Oops(ex); }
+                Log("[YPF Unpack] Complete, unpacked " + success + "/" + files.Count + " files.");
                 Invoke(new Action(() => groupBox1.Enabled = true));
             });
         }
