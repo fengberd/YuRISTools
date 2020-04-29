@@ -22,53 +22,7 @@ namespace YuRIS.Package
             NameLengthTable.ToList().ForEach(kv => NameLengthTable.Add(kv.Value, kv.Key));
         }
 
-        public static uint MurmurHash2(byte[] data, uint seed = 0)
-        {
-            // https://github.com/abrandoned/murmur2/blob/master/MurmurHash2.c
-            const uint m = 0x5bd1e995;
-            const int r = 24;
-
-            int len = data.Length;
-            uint h = seed ^ (uint)len;
-
-            int index = 0;
-            while (len >= 4)
-            {
-                uint k = BitConverter.ToUInt32(data, index);
-
-                k *= m;
-                k ^= k >> r;
-                k *= m;
-
-                h *= m;
-                h ^= k;
-
-                index += 4;
-                len -= 4;
-            }
-
-            if(len != 0)
-            {
-                if (len > 2)
-                {
-                    h ^= (uint)(data[index+2] << 16);
-                }
-                if (len > 1)
-                {
-                    h ^= (uint)(data[index+1] << 8);
-                }
-                h ^= data[index];
-                h *= m;
-            }
-
-            h ^= h >> 13;
-            h *= m;
-            h ^= h >> 15;
-
-            return h;
-        }
-
-        public static YPF ReadFile(BinaryReader reader)
+        public static YPF ReadFile(BinaryReader reader, Func<byte[], uint> nameHash = null, Func<byte[], uint> dataHash = null)
         {
             if (Encoding.UTF8.GetString(reader.ReadBytes(3)) != "YPF" || reader.ReadByte() != 0)
             {
@@ -87,21 +41,21 @@ namespace YuRIS.Package
             {
                 throw new InvalidDataException("YPF structure mismatch");
             }
-
+            
             reader.BaseStream.Position = 32;
 
             List<long> offsets = new List<long>();
             for (int i = 0; i < count; i++)
             {
                 uint hash = reader.ReadUInt32();
-                int length = 255 - reader.ReadByte();
+                int length = reader.ReadByte() ^ 0xff;
                 if (NameLengthTable.ContainsKey(length))
                 {
                     length = NameLengthTable[length];
                 }
 
                 var name = reader.ReadBytes(length).Select(c => (byte)~c).ToArray();
-                if(MurmurHash2(name)!=hash)
+                if (nameHash != null && nameHash(name) != hash)
                 {
                     throw new InvalidDataException("File name hash mismatch");
                 }
@@ -120,15 +74,16 @@ namespace YuRIS.Package
                 {
                     throw new InvalidDataException("YPF structure mismatch");
                 }
-                offsets.Add(reader.ReadInt64());
-                entry.Hash = reader.ReadUInt32();
+
+                offsets.Add(version >= 480 ? reader.ReadInt64() : reader.ReadInt32());
+                entry.Hash = version >= 473 ? reader.ReadUInt32() : 0;
             }
             for (int i = 0; i < count; i++)
             {
                 reader.BaseStream.Position = offsets[i];
                 var entry = result.Entries[i];
                 var data = reader.ReadBytes(entry.CompressedSize);
-                if (MurmurHash2(data) != entry.Hash)
+                if (dataHash != null && entry.Hash!=0 && dataHash(data) != entry.Hash)
                 {
                     throw new InvalidDataException("File data hash mismatch");
                 }
@@ -161,18 +116,18 @@ namespace YuRIS.Package
 
         public List<YPFEntry> Entries = new List<YPFEntry>();
 
-        public void Write(BinaryWriter writer)
+        public void Write(BinaryWriter writer, int engine, Func<byte[], uint> nameHash, Func<byte[], uint> dataHash)
         {
             writer.Write(YPFHeader);
-            writer.Write(490);
+            writer.Write(engine);
             writer.Write(Entries.Count);
             writer.BaseStream.Position = 32;
 
             List<long> entryPosition = new List<long>();
-            foreach(var entry in Entries)
+            foreach (var entry in Entries)
             {
                 var name = Encoding.GetEncoding("SHIFT-JIS").GetBytes(entry.Name);
-                writer.Write(MurmurHash2(name));
+                writer.Write(nameHash(name));
 
                 int length = entry.Name.Length;
                 if (NameLengthTable.ContainsKey(length))
@@ -216,8 +171,15 @@ namespace YuRIS.Package
 
                 entry.CompressedSize = data.Length;
                 writer.Write(entry.CompressedSize);
-                writer.Write(dataOffset - data.Length);
-                writer.Write(MurmurHash2(data));
+                if(engine >= 480)
+                {
+                    writer.Write(dataOffset - data.Length);
+                }
+                else
+                {
+                    writer.Write((int)(dataOffset - data.Length));
+                }
+                writer.Write(dataHash(data));
 
                 writer.BaseStream.Position = dataOffset;
             }

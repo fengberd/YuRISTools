@@ -5,6 +5,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using YuRIS;
+using YuRIS.Script;
 using YuRIS.Package;
 
 namespace YuRISTools
@@ -16,11 +18,15 @@ namespace YuRISTools
         public MainForm()
         {
             InitializeComponent();
+            using (var reader = new BinaryReader(File.OpenRead("R:/wwww/yst00000.ybn")))
+            {
+                File.WriteAllBytes("R:/wwww/yst00000.ybn.decrypt", YBNUtils.CipherYSTB(reader, 0x76033B26));
+            }
         }
 
         public void Log(string data)
         {
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 Invoke(new Action(() => Log(data)));
                 return;
@@ -68,6 +74,19 @@ namespace YuRISTools
                 files.Add(textBox_ypf_unpack_input.Text);
             }
             groupBox1.Enabled = false;
+            Func<byte[], uint> hashName = null, hashData = null;
+            if (checkBox_ypf_verify.Checked)
+            {
+                if (radioButton_ypf_crc32.Checked)
+                {
+                    hashName = CheckSum.CRC32;
+                    hashData = CheckSum.Adler32;
+                }
+                else
+                {
+                    hashData = hashName = CheckSum.MurmurHash2;
+                }
+            }
             var output = textBox_ypf_unpack_output.Text;
             ThreadPool.QueueUserWorkItem(s =>
             {
@@ -78,7 +97,7 @@ namespace YuRISTools
                         Log("[YPF Unpack] Unpacking " + Path.GetFileName(file) + " ...");
                         using (var reader = new BinaryReader(File.OpenRead(file)))
                         {
-                            var ypf = YPF.ReadFile(reader);
+                            var ypf = YPF.ReadFile(reader, hashName, hashData);
                             Log("[YPF Unpack] Found " + ypf.Entries.Count + " entries.");
                             foreach (var entry in ypf.Entries)
                             {
@@ -103,7 +122,7 @@ namespace YuRISTools
                 var ypf = new YPF();
                 HashSet<string> non_compress = new HashSet<string>(textBox_ypf_pack_no_compress.Text.ToLower().Split('/').Where(s => s.Trim() != "")),
                     non_packing = new HashSet<string>(textBox_ypf_pack_no_packing.Text.ToLower().Split('/').Where(s => s.Trim() != ""));
-                foreach (var file in Directory.GetFiles(textBox_ypf_pack_input.Text,"*",SearchOption.AllDirectories).OrderBy(f => f))
+                foreach (var file in Directory.GetFiles(textBox_ypf_pack_input.Text, "*", SearchOption.AllDirectories).OrderBy(f => f))
                 {
                     if (non_packing.Contains(Path.GetExtension(file).ToLower()))
                     {
@@ -122,7 +141,13 @@ namespace YuRISTools
                 }
                 using (var writer = new BinaryWriter(File.Open(target, FileMode.Create)))
                 {
-                    ypf.Write(writer);
+                    Func<byte[], uint> hashName = CheckSum.MurmurHash2, hashData = CheckSum.MurmurHash2;
+                    if (radioButton_ypf_crc32.Checked)
+                    {
+                        hashName = CheckSum.CRC32;
+                        hashData = CheckSum.Adler32;
+                    }
+                    ypf.Write(writer, int.Parse(textBox_ypf_engine.Text), hashName, hashData);
                     Log("[YPF Pack] Write success, size: " + writer.BaseStream.Position + ", target: " + target);
                 }
             }

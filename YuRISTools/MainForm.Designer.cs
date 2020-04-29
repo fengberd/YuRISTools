@@ -33,7 +33,15 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkBox_ypf_verify = new System.Windows.Forms.CheckBox();
+            this.radioButton_ypf_murmur2 = new System.Windows.Forms.RadioButton();
+            this.radioButton_ypf_crc32 = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox_ypf_pack_no_packing = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox_ypf_pack_no_compress = new System.Windows.Forms.TextBox();
             this.button_ypf_pack = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox_ypf_pack_output = new System.Windows.Forms.TextBox();
@@ -46,15 +54,16 @@
             this.label7 = new System.Windows.Forms.Label();
             this.textBox_ypf_unpack_input = new System.Windows.Forms.TextBox();
             this.textBox_log = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox_ypf_pack_no_compress = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox_ypf_pack_no_packing = new System.Windows.Forms.TextBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.textBox_ypf_engine = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -65,7 +74,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(588, 246);
+            this.tabControl1.Size = new System.Drawing.Size(626, 246);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -75,7 +84,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(580, 166);
+            this.tabPage1.Size = new System.Drawing.Size(618, 220);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "YBN Tool";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -100,15 +109,61 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox6);
+            this.tabPage2.Controls.Add(this.groupBox5);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(580, 220);
+            this.tabPage2.Size = new System.Drawing.Size(618, 220);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "YPF Tool";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.checkBox_ypf_verify);
+            this.groupBox5.Controls.Add(this.radioButton_ypf_murmur2);
+            this.groupBox5.Controls.Add(this.radioButton_ypf_crc32);
+            this.groupBox5.Location = new System.Drawing.Point(504, 6);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(108, 98);
+            this.groupBox5.TabIndex = 16;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Checksum";
+            // 
+            // checkBox_ypf_verify
+            // 
+            this.checkBox_ypf_verify.AutoSize = true;
+            this.checkBox_ypf_verify.Location = new System.Drawing.Point(6, 76);
+            this.checkBox_ypf_verify.Name = "checkBox_ypf_verify";
+            this.checkBox_ypf_verify.Size = new System.Drawing.Size(60, 16);
+            this.checkBox_ypf_verify.TabIndex = 16;
+            this.checkBox_ypf_verify.Text = "Verify";
+            this.checkBox_ypf_verify.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_ypf_murmur2
+            // 
+            this.radioButton_ypf_murmur2.AutoSize = true;
+            this.radioButton_ypf_murmur2.Checked = true;
+            this.radioButton_ypf_murmur2.Location = new System.Drawing.Point(6, 20);
+            this.radioButton_ypf_murmur2.Name = "radioButton_ypf_murmur2";
+            this.radioButton_ypf_murmur2.Size = new System.Drawing.Size(65, 16);
+            this.radioButton_ypf_murmur2.TabIndex = 1;
+            this.radioButton_ypf_murmur2.TabStop = true;
+            this.radioButton_ypf_murmur2.Text = "Murmur2";
+            this.radioButton_ypf_murmur2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_ypf_crc32
+            // 
+            this.radioButton_ypf_crc32.AutoSize = true;
+            this.radioButton_ypf_crc32.Location = new System.Drawing.Point(6, 42);
+            this.radioButton_ypf_crc32.Name = "radioButton_ypf_crc32";
+            this.radioButton_ypf_crc32.Size = new System.Drawing.Size(95, 28);
+            this.radioButton_ypf_crc32.TabIndex = 15;
+            this.radioButton_ypf_crc32.Text = "Name CRC32\r\nData Adler32";
+            this.radioButton_ypf_crc32.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -123,14 +178,50 @@
             this.groupBox2.Controls.Add(this.textBox_ypf_pack_input);
             this.groupBox2.Location = new System.Drawing.Point(6, 86);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(568, 128);
+            this.groupBox2.Size = new System.Drawing.Size(492, 128);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Pack";
             // 
+            // textBox_ypf_pack_no_packing
+            // 
+            this.textBox_ypf_pack_no_packing.AllowDrop = true;
+            this.textBox_ypf_pack_no_packing.Location = new System.Drawing.Point(161, 101);
+            this.textBox_ypf_pack_no_packing.Name = "textBox_ypf_pack_no_packing";
+            this.textBox_ypf_pack_no_packing.Size = new System.Drawing.Size(325, 21);
+            this.textBox_ypf_pack_no_packing.TabIndex = 14;
+            this.textBox_ypf_pack_no_packing.Text = "exe/dll/mpg/avi/swf/yst/txt/bat/sd/db/vix/bak";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 104);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(143, 12);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Non-Packing Extensions:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 77);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(149, 12);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Non-Compress Extensions:";
+            // 
+            // textBox_ypf_pack_no_compress
+            // 
+            this.textBox_ypf_pack_no_compress.AllowDrop = true;
+            this.textBox_ypf_pack_no_compress.Location = new System.Drawing.Point(161, 74);
+            this.textBox_ypf_pack_no_compress.Name = "textBox_ypf_pack_no_compress";
+            this.textBox_ypf_pack_no_compress.Size = new System.Drawing.Size(325, 21);
+            this.textBox_ypf_pack_no_compress.TabIndex = 11;
+            this.textBox_ypf_pack_no_compress.Text = "png/gif/wav/ogg/psb";
+            // 
             // button_ypf_pack
             // 
-            this.button_ypf_pack.Location = new System.Drawing.Point(487, 20);
+            this.button_ypf_pack.Location = new System.Drawing.Point(411, 20);
             this.button_ypf_pack.Name = "button_ypf_pack";
             this.button_ypf_pack.Size = new System.Drawing.Size(75, 21);
             this.button_ypf_pack.TabIndex = 9;
@@ -152,7 +243,7 @@
             this.textBox_ypf_pack_output.AllowDrop = true;
             this.textBox_ypf_pack_output.Location = new System.Drawing.Point(59, 47);
             this.textBox_ypf_pack_output.Name = "textBox_ypf_pack_output";
-            this.textBox_ypf_pack_output.Size = new System.Drawing.Size(422, 21);
+            this.textBox_ypf_pack_output.Size = new System.Drawing.Size(427, 21);
             this.textBox_ypf_pack_output.TabIndex = 7;
             this.textBox_ypf_pack_output.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ypf_pack_output.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
@@ -171,7 +262,7 @@
             this.textBox_ypf_pack_input.AllowDrop = true;
             this.textBox_ypf_pack_input.Location = new System.Drawing.Point(59, 20);
             this.textBox_ypf_pack_input.Name = "textBox_ypf_pack_input";
-            this.textBox_ypf_pack_input.Size = new System.Drawing.Size(422, 21);
+            this.textBox_ypf_pack_input.Size = new System.Drawing.Size(346, 21);
             this.textBox_ypf_pack_input.TabIndex = 5;
             this.textBox_ypf_pack_input.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ypf_pack_input.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
@@ -185,14 +276,14 @@
             this.groupBox1.Controls.Add(this.textBox_ypf_unpack_input);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(568, 74);
+            this.groupBox1.Size = new System.Drawing.Size(492, 74);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Unpack";
             // 
             // button_ypf_unpack
             // 
-            this.button_ypf_unpack.Location = new System.Drawing.Point(487, 20);
+            this.button_ypf_unpack.Location = new System.Drawing.Point(411, 20);
             this.button_ypf_unpack.Name = "button_ypf_unpack";
             this.button_ypf_unpack.Size = new System.Drawing.Size(75, 21);
             this.button_ypf_unpack.TabIndex = 14;
@@ -214,7 +305,7 @@
             this.textBox_ypf_unpack_output.AllowDrop = true;
             this.textBox_ypf_unpack_output.Location = new System.Drawing.Point(59, 47);
             this.textBox_ypf_unpack_output.Name = "textBox_ypf_unpack_output";
-            this.textBox_ypf_unpack_output.Size = new System.Drawing.Size(422, 21);
+            this.textBox_ypf_unpack_output.Size = new System.Drawing.Size(427, 21);
             this.textBox_ypf_unpack_output.TabIndex = 12;
             this.textBox_ypf_unpack_output.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ypf_unpack_output.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
@@ -233,7 +324,7 @@
             this.textBox_ypf_unpack_input.AllowDrop = true;
             this.textBox_ypf_unpack_input.Location = new System.Drawing.Point(59, 20);
             this.textBox_ypf_unpack_input.Name = "textBox_ypf_unpack_input";
-            this.textBox_ypf_unpack_input.Size = new System.Drawing.Size(422, 21);
+            this.textBox_ypf_unpack_input.Size = new System.Drawing.Size(346, 21);
             this.textBox_ypf_unpack_input.TabIndex = 10;
             this.textBox_ypf_unpack_input.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ypf_unpack_input.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
@@ -248,50 +339,42 @@
             this.textBox_log.Multiline = true;
             this.textBox_log.Name = "textBox_log";
             this.textBox_log.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_log.Size = new System.Drawing.Size(588, 194);
+            this.textBox_log.Size = new System.Drawing.Size(626, 194);
             this.textBox_log.TabIndex = 1;
             // 
-            // label1
+            // groupBox6
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 77);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(149, 12);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Non-Compress Extensions:";
+            this.groupBox6.Controls.Add(this.label3);
+            this.groupBox6.Controls.Add(this.textBox_ypf_engine);
+            this.groupBox6.Location = new System.Drawing.Point(504, 110);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(108, 47);
+            this.groupBox6.TabIndex = 17;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Packing";
             // 
-            // textBox_ypf_pack_no_compress
+            // textBox_ypf_engine
             // 
-            this.textBox_ypf_pack_no_compress.AllowDrop = true;
-            this.textBox_ypf_pack_no_compress.Location = new System.Drawing.Point(161, 74);
-            this.textBox_ypf_pack_no_compress.Name = "textBox_ypf_pack_no_compress";
-            this.textBox_ypf_pack_no_compress.Size = new System.Drawing.Size(320, 21);
-            this.textBox_ypf_pack_no_compress.TabIndex = 11;
-            this.textBox_ypf_pack_no_compress.Text = "png/gif/wav/ogg/psb";
+            this.textBox_ypf_engine.Location = new System.Drawing.Point(59, 20);
+            this.textBox_ypf_engine.Name = "textBox_ypf_engine";
+            this.textBox_ypf_engine.Size = new System.Drawing.Size(43, 21);
+            this.textBox_ypf_engine.TabIndex = 0;
+            this.textBox_ypf_engine.Text = "490";
             // 
-            // label2
+            // label3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 104);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(143, 12);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Non-Packing Extensions:";
-            // 
-            // textBox_ypf_pack_no_packing
-            // 
-            this.textBox_ypf_pack_no_packing.AllowDrop = true;
-            this.textBox_ypf_pack_no_packing.Location = new System.Drawing.Point(161, 101);
-            this.textBox_ypf_pack_no_packing.Name = "textBox_ypf_pack_no_packing";
-            this.textBox_ypf_pack_no_packing.Size = new System.Drawing.Size(320, 21);
-            this.textBox_ypf_pack_no_packing.TabIndex = 14;
-            this.textBox_ypf_pack_no_packing.Text = "exe/dll/mpg/avi/swf/yst/txt/bat/sd/db/vix/bak";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 23);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 12);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Engine:";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(588, 438);
+            this.ClientSize = new System.Drawing.Size(626, 438);
             this.Controls.Add(this.textBox_log);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -301,10 +384,14 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -334,6 +421,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_ypf_pack_no_compress;
         private System.Windows.Forms.TextBox textBox_ypf_pack_no_packing;
+        private System.Windows.Forms.RadioButton radioButton_ypf_crc32;
+        private System.Windows.Forms.RadioButton radioButton_ypf_murmur2;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.CheckBox checkBox_ypf_verify;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBox_ypf_engine;
     }
 }
 
