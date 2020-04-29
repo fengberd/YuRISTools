@@ -46,15 +46,7 @@
     <Compile Include="Package\YPFEntry.cs" />
     <Compile Include="Package\YPFEntryType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Script\SCX.cs" />
-    <Compile Include="Script\SCXReader.cs" />
-    <Compile Include="Script\SCXString.cs" />
-    <Compile Include="Script\SCXWriter.cs" />
-    <Compile Include="Script\Tokens\ExpressionToken.cs" />
-    <Compile Include="Script\Tokens\ShortToken.cs" />
-    <Compile Include="Script\Tokens\TextToken.cs" />
-    <Compile Include="Script\Tokens\Token.cs" />
-    <Compile Include="Script\Tokens\TokenType.cs" />
+    <Compile Include="Script\YSTB.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

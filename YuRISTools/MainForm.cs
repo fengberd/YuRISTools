@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Globalization;
 using System.Collections.Generic;
 
 using YuRIS;
@@ -18,10 +19,6 @@ namespace YuRISTools
         public MainForm()
         {
             InitializeComponent();
-            using (var reader = new BinaryReader(File.OpenRead("R:/wwww/yst00000.ybn")))
-            {
-                File.WriteAllBytes("R:/wwww/yst00000.ybn.decrypt", YBNUtils.CipherYSTB(reader, 0x76033B26));
-            }
         }
 
         public void Log(string data)
@@ -66,8 +63,7 @@ namespace YuRISTools
             var files = new List<string>();
             if (Directory.Exists(textBox_ypf_unpack_input.Text))
             {
-                files.AddRange(Directory.GetFiles(textBox_ypf_unpack_input.Text)
-                    .Where(f => f.EndsWith(".ypf", StringComparison.CurrentCultureIgnoreCase)));
+                files.AddRange(Directory.GetFiles(textBox_ypf_unpack_input.Text, "*.ypf"));
             }
             else
             {
@@ -122,6 +118,7 @@ namespace YuRISTools
             try
             {
                 var ypf = new YPF();
+                var baseName = Path.GetFullPath(textBox_ypf_pack_input.Text).TrimEnd('\\') + "\\";
                 HashSet<string> non_compress = new HashSet<string>(textBox_ypf_pack_no_compress.Text.ToLower().Split('/').Where(s => s.Trim() != "")),
                     non_packing = new HashSet<string>(textBox_ypf_pack_no_packing.Text.ToLower().Split('/').Where(s => s.Trim() != ""));
                 foreach (var file in Directory.GetFiles(textBox_ypf_pack_input.Text, "*", SearchOption.AllDirectories).OrderBy(f => f))
@@ -130,7 +127,7 @@ namespace YuRISTools
                     {
                         continue;
                     }
-                    ypf.Entries.Add(new YPFEntry(file.Replace(Path.GetFullPath(textBox_ypf_pack_input.Text) + "\\", ""), File.ReadAllBytes(file))
+                    ypf.Entries.Add(new YPFEntry(file.Replace(baseName, ""), File.ReadAllBytes(file))
                     {
                         Compressed = !non_compress.Contains(Path.GetExtension(file).ToLower())
                     });
@@ -152,6 +149,51 @@ namespace YuRISTools
                     ypf.Write(writer, int.Parse(textBox_ypf_engine.Text), hashName, hashData);
                     Log("[YPF Pack] Write success, size: " + writer.BaseStream.Position + ", target: " + target);
                 }
+            }
+            catch (Exception ex) { Oops(ex); }
+        }
+
+        private void button_ystb_magic_Click(object sender, EventArgs e)
+        {
+            textBox_ystb_cipher_key.Text = CheckSum.Magic32(textBox_ystb_magic.Text).ToString("X8");
+        }
+
+        private void button_ystb_cipher_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var key = int.Parse(textBox_ystb_cipher_key.Text, NumberStyles.HexNumber);
+                var files = new List<string>();
+                var baseName = Path.GetFullPath(textBox_ystb_cipher_input.Text);
+                int counter = 0;
+                if (Directory.Exists(textBox_ystb_cipher_input.Text))
+                {
+                    files.AddRange(Directory.GetFiles(textBox_ystb_cipher_input.Text, "*.ybn", SearchOption.AllDirectories));
+                }
+                else
+                {
+                    files.Add(textBox_ystb_cipher_input.Text);
+                    baseName = Path.GetDirectoryName(baseName);
+                }
+                baseName = baseName.TrimEnd('\\') + "\\";
+                foreach (var file in files)
+                {
+                    var name = file.Replace(baseName , "");
+                    using (var reader = new BinaryReader(File.OpenRead(file)))
+                    {
+                        var data = YSTB.Cipher(reader, key);
+                        if (data != null)
+                        {
+                            reader.Close();
+                            Log("[YSTB Cipher] Processed: " + name);
+                            var path = Path.Combine(textBox_ystb_cipher_output.Text, name);
+                            Directory.CreateDirectory(Path.GetDirectoryName(path));
+                            File.WriteAllBytes(path, data);
+                            counter++;
+                        }
+                    }
+                }
+                Log("[YSTB Cipher] Complete: " + counter + "/" + files.Count + " files.");
             }
             catch (Exception ex) { Oops(ex); }
         }

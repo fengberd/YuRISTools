@@ -30,9 +30,6 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_ypf_verify = new System.Windows.Forms.CheckBox();
             this.radioButton_ypf_murmur2 = new System.Windows.Forms.RadioButton();
@@ -57,13 +54,28 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.textBox_ypf_engine = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button_ystb_cipher = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBox_ystb_cipher_output = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBox_ystb_cipher_input = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBox_ystb_cipher_key = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBox_ystb_magic = new System.Windows.Forms.TextBox();
+            this.button_ystb_magic = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -79,47 +91,17 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.groupBox4);
-            this.tabPage1.Controls.Add(this.groupBox3);
+            this.tabPage1.Controls.Add(this.groupBox6);
+            this.tabPage1.Controls.Add(this.groupBox5);
+            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(618, 220);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "YBN Tool";
+            this.tabPage1.TabIndex = 1;
+            this.tabPage1.Text = "YPF Tool";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Location = new System.Drawing.Point(6, 86);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(568, 74);
-            this.groupBox4.TabIndex = 10;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "YBN Patcher";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Location = new System.Drawing.Point(6, 6);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(568, 74);
-            this.groupBox3.TabIndex = 9;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "YBN Reader";
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.groupBox6);
-            this.tabPage2.Controls.Add(this.groupBox5);
-            this.tabPage2.Controls.Add(this.groupBox2);
-            this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(618, 220);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "YPF Tool";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -370,6 +352,139 @@
             this.label3.TabIndex = 1;
             this.label3.Text = "Engine:";
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.groupBox4);
+            this.tabPage2.Controls.Add(this.groupBox3);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(618, 220);
+            this.tabPage2.TabIndex = 2;
+            this.tabPage2.Text = "YSTB Tool";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.textBox_ystb_cipher_key);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.button_ystb_cipher);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.textBox_ystb_cipher_output);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.textBox_ystb_cipher_input);
+            this.groupBox3.Location = new System.Drawing.Point(6, 59);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(492, 74);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "YSTB Cipher";
+            // 
+            // button_ystb_cipher
+            // 
+            this.button_ystb_cipher.Location = new System.Drawing.Point(392, 47);
+            this.button_ystb_cipher.Name = "button_ystb_cipher";
+            this.button_ystb_cipher.Size = new System.Drawing.Size(94, 21);
+            this.button_ystb_cipher.TabIndex = 14;
+            this.button_ystb_cipher.Text = "XOR";
+            this.button_ystb_cipher.UseVisualStyleBackColor = true;
+            this.button_ystb_cipher.Click += new System.EventHandler(this.button_ystb_cipher_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 50);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 12);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "Output:";
+            // 
+            // textBox_ystb_cipher_output
+            // 
+            this.textBox_ystb_cipher_output.AllowDrop = true;
+            this.textBox_ystb_cipher_output.Location = new System.Drawing.Point(59, 47);
+            this.textBox_ystb_cipher_output.Name = "textBox_ystb_cipher_output";
+            this.textBox_ystb_cipher_output.Size = new System.Drawing.Size(327, 21);
+            this.textBox_ystb_cipher_output.TabIndex = 12;
+            this.textBox_ystb_cipher_output.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
+            this.textBox_ystb_cipher_output.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 23);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 12);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "Input:";
+            // 
+            // textBox_ystb_cipher_input
+            // 
+            this.textBox_ystb_cipher_input.AllowDrop = true;
+            this.textBox_ystb_cipher_input.Location = new System.Drawing.Point(59, 20);
+            this.textBox_ystb_cipher_input.Name = "textBox_ystb_cipher_input";
+            this.textBox_ystb_cipher_input.Size = new System.Drawing.Size(327, 21);
+            this.textBox_ystb_cipher_input.TabIndex = 10;
+            this.textBox_ystb_cipher_input.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
+            this.textBox_ystb_cipher_input.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(392, 23);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(29, 12);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "Key:";
+            // 
+            // textBox_ystb_cipher_key
+            // 
+            this.textBox_ystb_cipher_key.AllowDrop = true;
+            this.textBox_ystb_cipher_key.Location = new System.Drawing.Point(427, 20);
+            this.textBox_ystb_cipher_key.Name = "textBox_ystb_cipher_key";
+            this.textBox_ystb_cipher_key.Size = new System.Drawing.Size(59, 21);
+            this.textBox_ystb_cipher_key.TabIndex = 16;
+            this.textBox_ystb_cipher_key.Text = "76033B26";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.button_ystb_magic);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.textBox_ystb_magic);
+            this.groupBox4.Location = new System.Drawing.Point(6, 6);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(492, 47);
+            this.groupBox4.TabIndex = 2;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Magic32 Compute";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 23);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 12);
+            this.label11.TabIndex = 13;
+            this.label11.Text = "Input:";
+            // 
+            // textBox_ystb_magic
+            // 
+            this.textBox_ystb_magic.AllowDrop = true;
+            this.textBox_ystb_magic.Location = new System.Drawing.Point(53, 20);
+            this.textBox_ystb_magic.Name = "textBox_ystb_magic";
+            this.textBox_ystb_magic.Size = new System.Drawing.Size(333, 21);
+            this.textBox_ystb_magic.TabIndex = 12;
+            // 
+            // button_ystb_magic
+            // 
+            this.button_ystb_magic.Location = new System.Drawing.Point(392, 20);
+            this.button_ystb_magic.Name = "button_ystb_magic";
+            this.button_ystb_magic.Size = new System.Drawing.Size(94, 21);
+            this.button_ystb_magic.TabIndex = 17;
+            this.button_ystb_magic.Text = "Magic && Fill";
+            this.button_ystb_magic.UseVisualStyleBackColor = true;
+            this.button_ystb_magic.Click += new System.EventHandler(this.button_ystb_magic_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -383,7 +498,6 @@
             this.Text = "YuRIS Tools";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -392,6 +506,11 @@
             this.groupBox1.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -401,7 +520,6 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox textBox_log;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button_ypf_pack;
@@ -415,8 +533,6 @@
         private System.Windows.Forms.TextBox textBox_ypf_unpack_output;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBox_ypf_unpack_input;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_ypf_pack_no_compress;
@@ -428,6 +544,19 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox_ypf_engine;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button button_ystb_cipher;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox textBox_ystb_cipher_output;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBox_ystb_cipher_input;
+        private System.Windows.Forms.TextBox textBox_ystb_cipher_key;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button button_ystb_magic;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox textBox_ystb_magic;
     }
 }
 
