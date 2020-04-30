@@ -30,6 +30,9 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBox_ypf_engine = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_ypf_verify = new System.Windows.Forms.CheckBox();
             this.radioButton_ypf_murmur2 = new System.Windows.Forms.RadioButton();
@@ -50,32 +53,40 @@
             this.textBox_ypf_unpack_output = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox_ypf_unpack_input = new System.Windows.Forms.TextBox();
-            this.textBox_log = new System.Windows.Forms.TextBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.textBox_ypf_engine = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.button_ystb_text_patch = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox_ystb_text_patch = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBox_ystb_text_yscm = new System.Windows.Forms.TextBox();
+            this.button_ystb_text_export = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox_ystb_text_input = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button_ystb_magic = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBox_ystb_magic = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBox_ystb_cipher_key = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.button_ystb_cipher = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.textBox_ystb_cipher_output = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox_ystb_cipher_input = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.textBox_ystb_cipher_key = new System.Windows.Forms.TextBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox_ystb_magic = new System.Windows.Forms.TextBox();
-            this.button_ystb_magic = new System.Windows.Forms.Button();
+            this.textBox_log = new System.Windows.Forms.TextBox();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -102,6 +113,34 @@
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "YPF Tool";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label3);
+            this.groupBox6.Controls.Add(this.textBox_ypf_engine);
+            this.groupBox6.Location = new System.Drawing.Point(504, 110);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(108, 47);
+            this.groupBox6.TabIndex = 17;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Packing";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 23);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 12);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Engine:";
+            // 
+            // textBox_ypf_engine
+            // 
+            this.textBox_ypf_engine.Location = new System.Drawing.Point(59, 20);
+            this.textBox_ypf_engine.Name = "textBox_ypf_engine";
+            this.textBox_ypf_engine.Size = new System.Drawing.Size(43, 21);
+            this.textBox_ypf_engine.TabIndex = 0;
+            this.textBox_ypf_engine.Text = "490";
             // 
             // groupBox5
             // 
@@ -311,49 +350,9 @@
             this.textBox_ypf_unpack_input.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ypf_unpack_input.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
             // 
-            // textBox_log
-            // 
-            this.textBox_log.BackColor = System.Drawing.Color.Black;
-            this.textBox_log.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBox_log.Font = new System.Drawing.Font("Consolas", 10F);
-            this.textBox_log.ForeColor = System.Drawing.Color.Silver;
-            this.textBox_log.Location = new System.Drawing.Point(0, 244);
-            this.textBox_log.Multiline = true;
-            this.textBox_log.Name = "textBox_log";
-            this.textBox_log.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_log.Size = new System.Drawing.Size(626, 194);
-            this.textBox_log.TabIndex = 1;
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.label3);
-            this.groupBox6.Controls.Add(this.textBox_ypf_engine);
-            this.groupBox6.Location = new System.Drawing.Point(504, 110);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(108, 47);
-            this.groupBox6.TabIndex = 17;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Packing";
-            // 
-            // textBox_ypf_engine
-            // 
-            this.textBox_ypf_engine.Location = new System.Drawing.Point(59, 20);
-            this.textBox_ypf_engine.Name = "textBox_ypf_engine";
-            this.textBox_ypf_engine.Size = new System.Drawing.Size(43, 21);
-            this.textBox_ypf_engine.TabIndex = 0;
-            this.textBox_ypf_engine.Text = "490";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 23);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 12);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Engine:";
-            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox7);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -363,6 +362,140 @@
             this.tabPage2.TabIndex = 2;
             this.tabPage2.Text = "YSTB Tool";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.button_ystb_text_patch);
+            this.groupBox7.Controls.Add(this.label13);
+            this.groupBox7.Controls.Add(this.textBox_ystb_text_patch);
+            this.groupBox7.Controls.Add(this.label12);
+            this.groupBox7.Controls.Add(this.textBox_ystb_text_yscm);
+            this.groupBox7.Controls.Add(this.button_ystb_text_export);
+            this.groupBox7.Controls.Add(this.label14);
+            this.groupBox7.Controls.Add(this.textBox_ystb_text_input);
+            this.groupBox7.Location = new System.Drawing.Point(6, 139);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(604, 74);
+            this.groupBox7.TabIndex = 17;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "YSTB Text Tool";
+            // 
+            // button_ystb_text_patch
+            // 
+            this.button_ystb_text_patch.Location = new System.Drawing.Point(504, 46);
+            this.button_ystb_text_patch.Name = "button_ystb_text_patch";
+            this.button_ystb_text_patch.Size = new System.Drawing.Size(94, 21);
+            this.button_ystb_text_patch.TabIndex = 19;
+            this.button_ystb_text_patch.Text = "Patch";
+            this.button_ystb_text_patch.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 50);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(41, 12);
+            this.label13.TabIndex = 18;
+            this.label13.Text = "Patch:";
+            // 
+            // textBox_ystb_text_patch
+            // 
+            this.textBox_ystb_text_patch.AllowDrop = true;
+            this.textBox_ystb_text_patch.Location = new System.Drawing.Point(53, 47);
+            this.textBox_ystb_text_patch.Name = "textBox_ystb_text_patch";
+            this.textBox_ystb_text_patch.Size = new System.Drawing.Size(445, 21);
+            this.textBox_ystb_text_patch.TabIndex = 17;
+            this.textBox_ystb_text_patch.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
+            this.textBox_ystb_text_patch.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(270, 24);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(35, 12);
+            this.label12.TabIndex = 16;
+            this.label12.Text = "YSCM:";
+            // 
+            // textBox_ystb_text_yscm
+            // 
+            this.textBox_ystb_text_yscm.AllowDrop = true;
+            this.textBox_ystb_text_yscm.Location = new System.Drawing.Point(311, 20);
+            this.textBox_ystb_text_yscm.Name = "textBox_ystb_text_yscm";
+            this.textBox_ystb_text_yscm.Size = new System.Drawing.Size(187, 21);
+            this.textBox_ystb_text_yscm.TabIndex = 15;
+            this.textBox_ystb_text_yscm.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
+            this.textBox_ystb_text_yscm.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
+            // 
+            // button_ystb_text_export
+            // 
+            this.button_ystb_text_export.Location = new System.Drawing.Point(504, 20);
+            this.button_ystb_text_export.Name = "button_ystb_text_export";
+            this.button_ystb_text_export.Size = new System.Drawing.Size(94, 21);
+            this.button_ystb_text_export.TabIndex = 14;
+            this.button_ystb_text_export.Text = "Export";
+            this.button_ystb_text_export.UseVisualStyleBackColor = true;
+            this.button_ystb_text_export.Click += new System.EventHandler(this.button_ystb_text_export_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 23);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(41, 12);
+            this.label14.TabIndex = 11;
+            this.label14.Text = "YSTBs:";
+            // 
+            // textBox_ystb_text_input
+            // 
+            this.textBox_ystb_text_input.AllowDrop = true;
+            this.textBox_ystb_text_input.Location = new System.Drawing.Point(53, 20);
+            this.textBox_ystb_text_input.Name = "textBox_ystb_text_input";
+            this.textBox_ystb_text_input.Size = new System.Drawing.Size(211, 21);
+            this.textBox_ystb_text_input.TabIndex = 10;
+            this.textBox_ystb_text_input.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
+            this.textBox_ystb_text_input.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.button_ystb_magic);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.textBox_ystb_magic);
+            this.groupBox4.Location = new System.Drawing.Point(6, 6);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(604, 47);
+            this.groupBox4.TabIndex = 2;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Magic32 Key Compute";
+            // 
+            // button_ystb_magic
+            // 
+            this.button_ystb_magic.Location = new System.Drawing.Point(504, 20);
+            this.button_ystb_magic.Name = "button_ystb_magic";
+            this.button_ystb_magic.Size = new System.Drawing.Size(94, 21);
+            this.button_ystb_magic.TabIndex = 17;
+            this.button_ystb_magic.Text = "Magic && Fill";
+            this.button_ystb_magic.UseVisualStyleBackColor = true;
+            this.button_ystb_magic.Click += new System.EventHandler(this.button_ystb_magic_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 23);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 12);
+            this.label11.TabIndex = 13;
+            this.label11.Text = "Input:";
+            // 
+            // textBox_ystb_magic
+            // 
+            this.textBox_ystb_magic.AllowDrop = true;
+            this.textBox_ystb_magic.Location = new System.Drawing.Point(53, 20);
+            this.textBox_ystb_magic.Name = "textBox_ystb_magic";
+            this.textBox_ystb_magic.Size = new System.Drawing.Size(445, 21);
+            this.textBox_ystb_magic.TabIndex = 12;
+            this.textBox_ystb_magic.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
+            this.textBox_ystb_magic.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
             // 
             // groupBox3
             // 
@@ -375,14 +508,32 @@
             this.groupBox3.Controls.Add(this.textBox_ystb_cipher_input);
             this.groupBox3.Location = new System.Drawing.Point(6, 59);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(492, 74);
+            this.groupBox3.Size = new System.Drawing.Size(604, 74);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "YSTB Cipher";
             // 
+            // textBox_ystb_cipher_key
+            // 
+            this.textBox_ystb_cipher_key.AllowDrop = true;
+            this.textBox_ystb_cipher_key.Location = new System.Drawing.Point(539, 19);
+            this.textBox_ystb_cipher_key.Name = "textBox_ystb_cipher_key";
+            this.textBox_ystb_cipher_key.Size = new System.Drawing.Size(59, 21);
+            this.textBox_ystb_cipher_key.TabIndex = 16;
+            this.textBox_ystb_cipher_key.Text = "76033B26";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(504, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(29, 12);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "Key:";
+            // 
             // button_ystb_cipher
             // 
-            this.button_ystb_cipher.Location = new System.Drawing.Point(392, 47);
+            this.button_ystb_cipher.Location = new System.Drawing.Point(504, 46);
             this.button_ystb_cipher.Name = "button_ystb_cipher";
             this.button_ystb_cipher.Size = new System.Drawing.Size(94, 21);
             this.button_ystb_cipher.TabIndex = 14;
@@ -404,7 +555,7 @@
             this.textBox_ystb_cipher_output.AllowDrop = true;
             this.textBox_ystb_cipher_output.Location = new System.Drawing.Point(59, 47);
             this.textBox_ystb_cipher_output.Name = "textBox_ystb_cipher_output";
-            this.textBox_ystb_cipher_output.Size = new System.Drawing.Size(327, 21);
+            this.textBox_ystb_cipher_output.Size = new System.Drawing.Size(439, 21);
             this.textBox_ystb_cipher_output.TabIndex = 12;
             this.textBox_ystb_cipher_output.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ystb_cipher_output.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
@@ -423,67 +574,29 @@
             this.textBox_ystb_cipher_input.AllowDrop = true;
             this.textBox_ystb_cipher_input.Location = new System.Drawing.Point(59, 20);
             this.textBox_ystb_cipher_input.Name = "textBox_ystb_cipher_input";
-            this.textBox_ystb_cipher_input.Size = new System.Drawing.Size(327, 21);
+            this.textBox_ystb_cipher_input.Size = new System.Drawing.Size(439, 21);
             this.textBox_ystb_cipher_input.TabIndex = 10;
             this.textBox_ystb_cipher_input.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ystb_cipher_input.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
             // 
-            // label10
+            // textBox_log
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(392, 23);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(29, 12);
-            this.label10.TabIndex = 15;
-            this.label10.Text = "Key:";
+            this.textBox_log.BackColor = System.Drawing.Color.Black;
+            this.textBox_log.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.textBox_log.Font = new System.Drawing.Font("Consolas", 10F);
+            this.textBox_log.ForeColor = System.Drawing.Color.Silver;
+            this.textBox_log.Location = new System.Drawing.Point(0, 244);
+            this.textBox_log.Multiline = true;
+            this.textBox_log.Name = "textBox_log";
+            this.textBox_log.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_log.Size = new System.Drawing.Size(626, 194);
+            this.textBox_log.TabIndex = 1;
             // 
-            // textBox_ystb_cipher_key
+            // saveFileDialog1
             // 
-            this.textBox_ystb_cipher_key.AllowDrop = true;
-            this.textBox_ystb_cipher_key.Location = new System.Drawing.Point(427, 20);
-            this.textBox_ystb_cipher_key.Name = "textBox_ystb_cipher_key";
-            this.textBox_ystb_cipher_key.Size = new System.Drawing.Size(59, 21);
-            this.textBox_ystb_cipher_key.TabIndex = 16;
-            this.textBox_ystb_cipher_key.Text = "76033B26";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.button_ystb_magic);
-            this.groupBox4.Controls.Add(this.label11);
-            this.groupBox4.Controls.Add(this.textBox_ystb_magic);
-            this.groupBox4.Location = new System.Drawing.Point(6, 6);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(492, 47);
-            this.groupBox4.TabIndex = 2;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Magic32 Compute";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 23);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 12);
-            this.label11.TabIndex = 13;
-            this.label11.Text = "Input:";
-            // 
-            // textBox_ystb_magic
-            // 
-            this.textBox_ystb_magic.AllowDrop = true;
-            this.textBox_ystb_magic.Location = new System.Drawing.Point(53, 20);
-            this.textBox_ystb_magic.Name = "textBox_ystb_magic";
-            this.textBox_ystb_magic.Size = new System.Drawing.Size(333, 21);
-            this.textBox_ystb_magic.TabIndex = 12;
-            // 
-            // button_ystb_magic
-            // 
-            this.button_ystb_magic.Location = new System.Drawing.Point(392, 20);
-            this.button_ystb_magic.Name = "button_ystb_magic";
-            this.button_ystb_magic.Size = new System.Drawing.Size(94, 21);
-            this.button_ystb_magic.TabIndex = 17;
-            this.button_ystb_magic.Text = "Magic && Fill";
-            this.button_ystb_magic.UseVisualStyleBackColor = true;
-            this.button_ystb_magic.Click += new System.EventHandler(this.button_ystb_magic_Click);
+            this.saveFileDialog1.DefaultExt = "json";
+            this.saveFileDialog1.Filter = "JSON Files|*.json|All Files|*.*";
+            this.saveFileDialog1.Title = "Save JSON";
             // 
             // MainForm
             // 
@@ -498,19 +611,21 @@
             this.Text = "YuRIS Tools";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -557,6 +672,16 @@
         private System.Windows.Forms.Button button_ystb_magic;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox textBox_ystb_magic;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Button button_ystb_text_export;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBox_ystb_text_input;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textBox_ystb_text_yscm;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button button_ystb_text_patch;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox_ystb_text_patch;
     }
 }
 

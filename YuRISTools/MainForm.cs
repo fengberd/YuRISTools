@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Collections.Generic;
+
+using fastJSON;
 
 using YuRIS;
 using YuRIS.Script;
@@ -178,7 +181,7 @@ namespace YuRISTools
                 baseName = baseName.TrimEnd('\\') + "\\";
                 foreach (var file in files)
                 {
-                    var name = file.Replace(baseName , "");
+                    var name = file.Replace(baseName, "");
                     using (var reader = new BinaryReader(File.OpenRead(file)))
                     {
                         var data = YSTB.Cipher(reader, key);
@@ -194,6 +197,51 @@ namespace YuRISTools
                     }
                 }
                 Log("[YSTB Cipher] Complete: " + counter + "/" + files.Count + " files.");
+            }
+            catch (Exception ex) { Oops(ex); }
+        }
+
+        private void button_ystb_text_export_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var files = new List<string>();
+                if (Directory.Exists(textBox_ystb_text_input.Text))
+                {
+                    files.AddRange(Directory.GetFiles(textBox_ystb_text_input.Text, "*.ybn", SearchOption.TopDirectoryOnly));
+                }
+                else
+                {
+                    files.Add(textBox_ystb_text_input.Text);
+                }
+
+                var encoding = Encoding.GetEncoding("SHIFT-JIS");
+                var yscm = new YSCM(new BinaryReader(File.OpenRead(textBox_ystb_text_yscm.Text), encoding, false));
+
+                int counter = 0;
+                var result = new Dictionary<string, List<string>>();
+                foreach (var file in files)
+                {
+                    using (var fs = File.OpenRead(file))
+                    using (var reader = new BinaryReader(new BufferedStream(fs, 102400), encoding, false))
+                    {
+                        try
+                        {
+                            result.Add(Path.GetFileNameWithoutExtension(file), new YSTB(reader).ExportString(yscm));
+                            Log("[YSTB Text] Loaded: " + Path.GetFileName(file));
+                            counter++;
+                        }
+                        catch { }
+                    }
+                }
+                Log("[YSTB Text] Export complete: " + counter + "/" + files.Count + " files.");
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    File.WriteAllText(saveFileDialog1.FileName, JSON.ToNiceJSON(result, new JSONParameters()
+                    {
+                        UseEscapedUnicode = false
+                    }));
+                }
             }
             catch (Exception ex) { Oops(ex); }
         }

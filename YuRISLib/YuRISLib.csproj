@@ -46,8 +46,16 @@
     <Compile Include="Package\YPFEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceType.cs" />
+    <Compile Include="Script\Argument\FloatArgument.cs" />
+    <Compile Include="Script\Argument\IArgument.cs" />
+    <Compile Include="Script\Argument\IntArgument.cs" />
+    <Compile Include="Script\Argument\StringArgument.cs" />
+    <Compile Include="Script\Argument\ExpressionArgument.cs" />
+    <Compile Include="Script\Argument\MayStringArgument.cs" />
+    <Compile Include="Script\YSCM.cs" />
     <Compile Include="Script\YSER.cs" />
     <Compile Include="Script\YSTB.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
