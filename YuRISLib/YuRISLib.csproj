@@ -44,8 +44,8 @@
     <Compile Include="CheckSum.cs" />
     <Compile Include="Package\YPF.cs" />
     <Compile Include="Package\YPFEntry.cs" />
-    <Compile Include="Package\YPFEntryType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceType.cs" />
     <Compile Include="Script\YSER.cs" />
     <Compile Include="Script\YSTB.cs" />
   </ItemGroup>

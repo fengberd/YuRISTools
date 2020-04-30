@@ -10,7 +10,7 @@
         public bool Compressed = false;
         public int CompressedSize = 0;
 
-        public YPFEntryType Type;
+        public ResourceType Type;
 
         public YPFEntry() { }
 

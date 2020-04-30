@@ -1,9 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Linq;
 using System.IO.Compression;
 using System.Collections.Generic;
-using System;
 
 namespace YuRIS.Package
 {
@@ -63,7 +63,7 @@ namespace YuRIS.Package
                 var entry = new YPFEntry()
                 {
                     Name = Encoding.GetEncoding("SHIFT-JIS").GetString(name),
-                    Type = (YPFEntryType)reader.ReadByte(),
+                    Type = (ResourceType)reader.ReadByte(),
                     Compressed = reader.ReadByte() != 0,
                     Size = reader.ReadInt32(),
                     CompressedSize = reader.ReadInt32()
