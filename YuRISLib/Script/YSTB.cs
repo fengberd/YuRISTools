@@ -50,6 +50,9 @@ namespace YuRIS.Script
             }
         }
 
+        public uint Engine = 481;
+        public byte[] WTFData = null;
+
         public List<Instruction> Instructions = new List<Instruction>();
 
         public YSTB(BinaryReader reader)
@@ -59,10 +62,10 @@ namespace YuRIS.Script
                 throw new InvalidDataException("YSTB structure mismatch");
             }
 
-            int version = reader.ReadInt32();
-            if (version < 234 || version > 490)
+            Engine = reader.ReadUInt32();
+            if (Engine < 234 || Engine > 490)
             {
-                throw new InvalidDataException("Unsupported YSTB engine version: " + version);
+                throw new InvalidDataException("Unsupported YSTB engine version: " + Engine);
             }
 
             int instructionCount = reader.ReadInt32(), codeSize = reader.ReadInt32(),
@@ -71,6 +74,7 @@ namespace YuRIS.Script
 
             reader.BaseStream.Position = 32 + codeSize;
 
+            long lastOff = 0;
             var args = new Queue<IArgument>();
             for (int i = 0; i < argumentSize; i += 12)
             {
@@ -79,13 +83,23 @@ namespace YuRIS.Script
                     Index = reader.ReadUInt16(),
                     Type = reader.ReadUInt16()
                 };
-                uint size = reader.ReadUInt32();
-
-                long pos = reader.BaseStream.Position;
-
-                reader.BaseStream.Position = 32 + codeSize + argumentSize + reader.ReadUInt32();
-                arg.RawData = reader.ReadBytes((int)size);
-                reader.BaseStream.Position = pos + 4;
+                uint size = reader.ReadUInt32(), offset = reader.ReadUInt32();
+                if (size == 0)
+                {
+                    arg.RawData = new byte[0];
+                }
+                else
+                {
+                    long pos = reader.BaseStream.Position;
+                    reader.BaseStream.Position = 32 + codeSize + argumentSize + offset;
+                    if (lastOff != 0 && lastOff != reader.BaseStream.Position)
+                    {
+                        // throw new Exception("WTF");
+                    }
+                    arg.RawData = reader.ReadBytes((int)size);
+                    lastOff = reader.BaseStream.Position;
+                    reader.BaseStream.Position = pos;
+                }
                 /*
                 switch (type)
                 {
@@ -111,12 +125,6 @@ namespace YuRIS.Script
                 args.Enqueue(arg);
             }
 
-            foreach (var arg in args)
-            {
-                reader.BaseStream.Position = 32 + codeSize + argumentSize + arg.ResourceOffset;
-                arg.Load(reader, (int)arg.ResourceSize);
-            }
-
             reader.BaseStream.Position = 32;
 
             for (int i = 0; i < instructionCount; i++)
@@ -124,15 +132,18 @@ namespace YuRIS.Script
                 var inst = new Instruction()
                 {
                     Code = reader.ReadByte(),
-                    Arguments = new IArgument[reader.ReadByte()]
+                    Arguments = new IArgument[reader.ReadByte()],
+                    WTF = reader.ReadUInt16()
                 };
-                reader.ReadBytes(2);
                 for (int j = 0; j < inst.Arguments.Length; j++)
                 {
                     inst.Arguments[j] = args.Dequeue();
                 }
                 Instructions.Add(inst);
             }
+
+            reader.BaseStream.Position = 32 + codeSize + argumentSize + resourceSize;
+            WTFData = reader.ReadBytes(wtfSize);
         }
 
         public List<string> ExportString(YSCM OPCodes)
@@ -155,6 +166,82 @@ namespace YuRIS.Script
                 }
             }
             return result;
+        }
+
+        public int Patch(YSCM OPCodes, List<string> patch)
+        {
+            int i = 0;
+            foreach (var code in Instructions)
+            {
+                var op = OPCodes[code.Code];
+                if (op.Name == "WORD")
+                {
+                    if (code.Arguments.Length != 1)
+                    {
+                        throw new Exception("Bad argument count");
+                    }
+                    if (patch[i] != null)
+                    {
+                        code.Arguments[0].RawData = Encoding.Default.GetBytes(patch[i]);
+                    }
+                    if (++i >= patch.Count)
+                    {
+                        break;
+                    }
+                }
+            }
+            return i;
+        }
+
+        public void Write(BinaryWriter writer, YSCM scm)
+        {
+            writer.Write(new char[] { 'Y', 'S', 'T', 'B' });
+            writer.Write(Engine);
+
+            writer.Write(Instructions.Count);
+
+            using (var code = new MemoryStream())
+            using (var argument = new MemoryStream())
+            using (var resource = new MemoryStream())
+            using (var codeWriter = new BinaryWriter(code))
+            using (var argumenteWriter = new BinaryWriter(argument))
+            using (var resourceWriter = new BinaryWriter(resource))
+            {
+                foreach (var i in Instructions)
+                {
+                    codeWriter.Write(i.Code);
+                    codeWriter.Write((byte)i.Arguments.Length);
+                    codeWriter.Write(i.WTF);
+                    foreach (var arg in i.Arguments)
+                    {
+                        argumenteWriter.Write(arg.Index);
+                        argumenteWriter.Write(arg.Type);
+                        argumenteWriter.Write(arg.RawData.Length);
+                        if (arg.RawData.Length == 0 || (scm[i.Code].Name == "RETURNCODE" && arg.RawData.Length == 1 && arg.RawData[0] == 'M'))
+                        {
+                            argumenteWriter.Write(0);
+                        }
+                        else
+                        {
+                            argumenteWriter.Write((uint)resource.Position);
+                            resourceWriter.Write(arg.RawData);
+                        }
+                    }
+                }
+
+                writer.Write((uint)code.Length);
+                writer.Write((uint)argument.Length);
+                writer.Write((uint)resource.Length);
+                writer.Write((uint)WTFData.Length);
+
+                writer.BaseStream.Position = 32;
+                code.Position = argument.Position = resource.Position = 0;
+
+                code.CopyTo(writer.BaseStream);
+                argument.CopyTo(writer.BaseStream);
+                resource.CopyTo(writer.BaseStream);
+                writer.Write(WTFData);
+            }
         }
 
         public string Dump(YSCM OPCodes)
@@ -226,6 +313,8 @@ namespace YuRIS.Script
         public class Instruction
         {
             public byte Code;
+            public ushort WTF;
+
             public IArgument[] Arguments;
 
             public override string ToString() => Code.ToString("X2") + " [" + string.Join(", ", Arguments.Select(a => a.ToString())) + "]";

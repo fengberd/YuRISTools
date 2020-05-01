@@ -214,16 +214,15 @@ namespace YuRISTools
                 {
                     files.Add(textBox_ystb_text_input.Text);
                 }
-
-                var encoding = Encoding.GetEncoding("SHIFT-JIS");
-                var yscm = new YSCM(new BinaryReader(File.OpenRead(textBox_ystb_text_yscm.Text), encoding, false));
+                
+                var yscm = new YSCM(new BinaryReader(File.OpenRead(textBox_ystb_text_yscm.Text)));
 
                 int counter = 0;
                 var result = new Dictionary<string, List<string>>();
                 foreach (var file in files)
                 {
                     using (var fs = File.OpenRead(file))
-                    using (var reader = new BinaryReader(new BufferedStream(fs, 102400), encoding, false))
+                    using (var reader = new BinaryReader(new BufferedStream(fs, 102400)))
                     {
                         try
                         {
@@ -235,6 +234,7 @@ namespace YuRISTools
                     }
                 }
                 Log("[YSTB Text] Export complete: " + counter + "/" + files.Count + " files.");
+
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     File.WriteAllText(saveFileDialog1.FileName, JSON.ToNiceJSON(result, new JSONParameters()
@@ -242,6 +242,54 @@ namespace YuRISTools
                         UseEscapedUnicode = false
                     }));
                 }
+            }
+            catch (Exception ex) { Oops(ex); }
+        }
+
+        private void button_ystb_text_patch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var files = new List<string>();
+                if (Directory.Exists(textBox_ystb_text_input.Text))
+                {
+                    files.AddRange(Directory.GetFiles(textBox_ystb_text_input.Text, "*.ybn", SearchOption.TopDirectoryOnly));
+                }
+                else
+                {
+                    files.Add(textBox_ystb_text_input.Text);
+                }
+                
+                var yscm = new YSCM(new BinaryReader(File.OpenRead(textBox_ystb_text_yscm.Text)));
+                var patch = JSON.ToObject<Dictionary<string, object>>(File.ReadAllText(textBox_ystb_text_patch.Text));
+
+                int counter = 0;
+                foreach (var file in files)
+                {
+                    if(patch.TryGetValue(Path.GetFileNameWithoutExtension(file), out object p))
+                    {
+                        using (var fs = File.OpenRead(file))
+                        using (var reader = new BinaryReader(new BufferedStream(fs, 102400)))
+                        {
+                            try
+                            {
+                                var ystb = new YSTB(reader);
+                                int tmp = ystb.Patch(yscm, ((List<object>)p).Select(s => s.ToString()).ToList());
+                                using (var writer = new BinaryWriter(File.Open(Path.Combine(textBox_ystb_text_output.Text, Path.GetFileName(file)), FileMode.Create)))
+                                {
+                                    ystb.Write(writer, yscm);
+                                }
+                                Log("[YSTB Patch] Patched: " + Path.GetFileName(file) + ", " + tmp + " replaces");
+                                counter++;
+                            }
+                            catch(Exception ex)
+                            {
+                                Log(ex.ToString());
+                            }
+                        }
+                    }
+                }
+                Log("[YSTB Patch] Patch complete: " + counter + "/" + files.Count + " files.");
             }
             catch (Exception ex) { Oops(ex); }
         }

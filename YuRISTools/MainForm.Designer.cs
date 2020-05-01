@@ -55,6 +55,8 @@
             this.textBox_ypf_unpack_input = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBox_ystb_text_output = new System.Windows.Forms.TextBox();
             this.button_ystb_text_patch = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.textBox_ystb_text_patch = new System.Windows.Forms.TextBox();
@@ -365,6 +367,8 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.label15);
+            this.groupBox7.Controls.Add(this.textBox_ystb_text_output);
             this.groupBox7.Controls.Add(this.button_ystb_text_patch);
             this.groupBox7.Controls.Add(this.label13);
             this.groupBox7.Controls.Add(this.textBox_ystb_text_patch);
@@ -380,6 +384,26 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "YSTB Text Tool";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(267, 50);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(47, 12);
+            this.label15.TabIndex = 21;
+            this.label15.Text = "Output:";
+            // 
+            // textBox_ystb_text_output
+            // 
+            this.textBox_ystb_text_output.AllowDrop = true;
+            this.textBox_ystb_text_output.Location = new System.Drawing.Point(320, 47);
+            this.textBox_ystb_text_output.Name = "textBox_ystb_text_output";
+            this.textBox_ystb_text_output.Size = new System.Drawing.Size(178, 21);
+            this.textBox_ystb_text_output.TabIndex = 20;
+            this.textBox_ystb_text_output.Text = "D:\\Workspace\\MaggotBaits\\unpack\\bn\\output";
+            this.textBox_ystb_text_output.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
+            this.textBox_ystb_text_output.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
+            // 
             // button_ystb_text_patch
             // 
             this.button_ystb_text_patch.Location = new System.Drawing.Point(504, 46);
@@ -388,6 +412,7 @@
             this.button_ystb_text_patch.TabIndex = 19;
             this.button_ystb_text_patch.Text = "Patch";
             this.button_ystb_text_patch.UseVisualStyleBackColor = true;
+            this.button_ystb_text_patch.Click += new System.EventHandler(this.button_ystb_text_patch_Click);
             // 
             // label13
             // 
@@ -403,15 +428,16 @@
             this.textBox_ystb_text_patch.AllowDrop = true;
             this.textBox_ystb_text_patch.Location = new System.Drawing.Point(53, 47);
             this.textBox_ystb_text_patch.Name = "textBox_ystb_text_patch";
-            this.textBox_ystb_text_patch.Size = new System.Drawing.Size(445, 21);
+            this.textBox_ystb_text_patch.Size = new System.Drawing.Size(197, 21);
             this.textBox_ystb_text_patch.TabIndex = 17;
+            this.textBox_ystb_text_patch.Text = "D:\\Workspace\\MaggotBaits\\unpack\\bn\\ysbin_decrypted\\all.json";
             this.textBox_ystb_text_patch.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ystb_text_patch.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(270, 24);
+            this.label12.Location = new System.Drawing.Point(267, 24);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(35, 12);
             this.label12.TabIndex = 16;
@@ -420,10 +446,11 @@
             // textBox_ystb_text_yscm
             // 
             this.textBox_ystb_text_yscm.AllowDrop = true;
-            this.textBox_ystb_text_yscm.Location = new System.Drawing.Point(311, 20);
+            this.textBox_ystb_text_yscm.Location = new System.Drawing.Point(320, 20);
             this.textBox_ystb_text_yscm.Name = "textBox_ystb_text_yscm";
-            this.textBox_ystb_text_yscm.Size = new System.Drawing.Size(187, 21);
+            this.textBox_ystb_text_yscm.Size = new System.Drawing.Size(178, 21);
             this.textBox_ystb_text_yscm.TabIndex = 15;
+            this.textBox_ystb_text_yscm.Text = "D:\\Workspace\\MaggotBaits\\unpack\\bn\\ysbin\\ysc.ybn";
             this.textBox_ystb_text_yscm.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ystb_text_yscm.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
             // 
@@ -451,8 +478,9 @@
             this.textBox_ystb_text_input.AllowDrop = true;
             this.textBox_ystb_text_input.Location = new System.Drawing.Point(53, 20);
             this.textBox_ystb_text_input.Name = "textBox_ystb_text_input";
-            this.textBox_ystb_text_input.Size = new System.Drawing.Size(211, 21);
+            this.textBox_ystb_text_input.Size = new System.Drawing.Size(197, 21);
             this.textBox_ystb_text_input.TabIndex = 10;
+            this.textBox_ystb_text_input.Text = "D:\\Workspace\\MaggotBaits\\unpack\\bn\\ysbin_decrypted";
             this.textBox_ystb_text_input.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ystb_text_input.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
             // 
@@ -557,6 +585,7 @@
             this.textBox_ystb_cipher_output.Name = "textBox_ystb_cipher_output";
             this.textBox_ystb_cipher_output.Size = new System.Drawing.Size(439, 21);
             this.textBox_ystb_cipher_output.TabIndex = 12;
+            this.textBox_ystb_cipher_output.Text = "D:\\Workspace\\MaggotBaits\\game\\ysbin";
             this.textBox_ystb_cipher_output.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ystb_cipher_output.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
             // 
@@ -576,6 +605,7 @@
             this.textBox_ystb_cipher_input.Name = "textBox_ystb_cipher_input";
             this.textBox_ystb_cipher_input.Size = new System.Drawing.Size(439, 21);
             this.textBox_ystb_cipher_input.TabIndex = 10;
+            this.textBox_ystb_cipher_input.Text = "D:\\Workspace\\MaggotBaits\\unpack\\bn\\output\\yst00161.ybn";
             this.textBox_ystb_cipher_input.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
             this.textBox_ystb_cipher_input.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
             // 
@@ -682,6 +712,8 @@
         private System.Windows.Forms.Button button_ystb_text_patch;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox textBox_ystb_text_patch;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBox_ystb_text_output;
     }
 }
 
