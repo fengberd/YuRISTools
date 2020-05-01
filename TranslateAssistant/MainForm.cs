@@ -186,29 +186,31 @@ namespace TranslateAssistant
             if (e.KeyChar == (char)Keys.Enter)
             {
                 e.Handled = true;
-                if (GameWindow == IntPtr.Zero || original == null)
+                if (original == null)
                 {
                     return;
                 }
-                SetForegroundWindow(GameWindow);
+                if (GameWindow != IntPtr.Zero )
+                {
+                    SetForegroundWindow(GameWindow);
 
-                INPUT keyDown = new INPUT();
-                keyDown.type = (int)InputType.INPUT_KEYBOARD;
-                keyDown.ki.wVk = 0x20;
-                keyDown.ki.dwFlags = (int)KEYEVENTF.KEYDOWN;
-                keyDown.ki.dwExtraInfo = GetMessageExtraInfo();
+                    INPUT keyDown = new INPUT();
+                    keyDown.type = (int)InputType.INPUT_KEYBOARD;
+                    keyDown.ki.wVk = 0x20;
+                    keyDown.ki.dwFlags = (int)KEYEVENTF.KEYDOWN;
+                    keyDown.ki.dwExtraInfo = GetMessageExtraInfo();
 
-                INPUT keyUp = new INPUT();
-                keyUp.type = (int)InputType.INPUT_KEYBOARD;
-                keyUp.ki.wVk = 0x20;
-                keyUp.mi.dwFlags = (int)KEYEVENTF.KEYUP;
-                keyUp.ki.dwExtraInfo = GetMessageExtraInfo();
+                    INPUT keyUp = new INPUT();
+                    keyUp.type = (int)InputType.INPUT_KEYBOARD;
+                    keyUp.ki.wVk = 0x20;
+                    keyUp.mi.dwFlags = (int)KEYEVENTF.KEYUP;
+                    keyUp.ki.dwExtraInfo = GetMessageExtraInfo();
 
-                SendInput(2, new INPUT[] { keyDown, keyUp }, Marshal.SizeOf(keyDown));
+                    SendInput(2, new INPUT[] { keyDown, keyUp }, Marshal.SizeOf(keyDown));
 
-                Thread.Sleep(100);
-                SetForegroundWindow(Handle);
-
+                    Thread.Sleep(100);
+                    SetForegroundWindow(Handle);
+                }
                 listView_main.Groups[currentFile].Items[currentId].SubItems[2].Text = output[currentFile][currentId] = textBox_current.Text.Replace("\n", "").Replace("\r", "").Trim();
 
                 if (nextId >= 0)
