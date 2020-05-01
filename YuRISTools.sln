@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuRISTools", "YuRISTools\Yu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YuRISLib", "YuRISLib\YuRISLib.csproj", "{F35F186C-E60A-4562-B263-61E597B36692}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateAssistant", "TranslateAssistant\TranslateAssistant.csproj", "{B72FE2AB-83A0-4405-ABA6-058CDC89FF4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F35F186C-E60A-4562-B263-61E597B36692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F35F186C-E60A-4562-B263-61E597B36692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F35F186C-E60A-4562-B263-61E597B36692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B72FE2AB-83A0-4405-ABA6-058CDC89FF4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B72FE2AB-83A0-4405-ABA6-058CDC89FF4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B72FE2AB-83A0-4405-ABA6-058CDC89FF4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B72FE2AB-83A0-4405-ABA6-058CDC89FF4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
