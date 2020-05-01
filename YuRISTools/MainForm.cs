@@ -214,7 +214,7 @@ namespace YuRISTools
                 {
                     files.Add(textBox_ystb_text_input.Text);
                 }
-                
+
                 var yscm = new YSCM(new BinaryReader(File.OpenRead(textBox_ystb_text_yscm.Text)));
 
                 int counter = 0;
@@ -259,14 +259,14 @@ namespace YuRISTools
                 {
                     files.Add(textBox_ystb_text_input.Text);
                 }
-                
+
                 var yscm = new YSCM(new BinaryReader(File.OpenRead(textBox_ystb_text_yscm.Text)));
-                var patch = JSON.ToObject<Dictionary<string, object>>(File.ReadAllText(textBox_ystb_text_patch.Text));
+                var patch = JSON.ToObject<Dictionary<string, List<string>>>(File.ReadAllText(textBox_ystb_text_patch.Text));
 
                 int counter = 0;
                 foreach (var file in files)
                 {
-                    if(patch.TryGetValue(Path.GetFileNameWithoutExtension(file), out object p))
+                    if (patch.TryGetValue(Path.GetFileNameWithoutExtension(file), out List<string> p))
                     {
                         using (var fs = File.OpenRead(file))
                         using (var reader = new BinaryReader(new BufferedStream(fs, 102400)))
@@ -274,7 +274,7 @@ namespace YuRISTools
                             try
                             {
                                 var ystb = new YSTB(reader);
-                                int tmp = ystb.Patch(yscm, ((List<object>)p).Select(s => s.ToString()).ToList());
+                                int tmp = ystb.Patch(yscm, p);
                                 using (var writer = new BinaryWriter(File.Open(Path.Combine(textBox_ystb_text_output.Text, Path.GetFileName(file)), FileMode.Create)))
                                 {
                                     ystb.Write(writer, yscm);
@@ -282,7 +282,7 @@ namespace YuRISTools
                                 Log("[YSTB Patch] Patched: " + Path.GetFileName(file) + ", " + tmp + " replaces");
                                 counter++;
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 Log(ex.ToString());
                             }
