@@ -4,8 +4,6 @@ using System.Text;
 using System.Linq;
 using System.Collections.Generic;
 
-using YuRIS.Script.Argument;
-
 namespace YuRIS.Script
 {
     public class YSTB
@@ -55,7 +53,7 @@ namespace YuRIS.Script
 
         public List<Instruction> Instructions = new List<Instruction>();
 
-        public YSTB(BinaryReader reader)
+        public YSTB(BinaryReader reader, YSCM yscm)
         {
             if (Encoding.UTF8.GetString(reader.ReadBytes(4)) != "YSTB")
             {
@@ -75,10 +73,10 @@ namespace YuRIS.Script
             reader.BaseStream.Position = 32 + codeSize;
 
             long lastOff = 0;
-            var args = new Queue<IArgument>();
+            var args = new Queue<Argument>();
             for (int i = 0; i < argumentSize; i += 12)
             {
-                IArgument arg = new IArgument()
+                Argument arg = new Argument()
                 {
                     Index = reader.ReadUInt16(),
                     Type = reader.ReadUInt16()
@@ -100,28 +98,6 @@ namespace YuRIS.Script
                     lastOff = reader.BaseStream.Position;
                     reader.BaseStream.Position = pos;
                 }
-                /*
-                switch (type)
-                {
-                case 0:
-
-                    break;
-                case 1:
-                    arg = new IntArgument();
-                    break;
-                case 2:
-                    arg = new FloatArgument();
-                    break;
-                case 3:
-                    arg = new MayStringArgument();
-                    break;
-                default:
-                    arg = new RawArgument();
-                    //reader.BaseStream.Position -= 2;
-                    //Console.WriteLine("Unknown argument type: " + reader.ReadUInt16());
-                    break;
-                }
-                */
                 args.Enqueue(arg);
             }
 
@@ -132,9 +108,10 @@ namespace YuRIS.Script
                 var inst = new Instruction()
                 {
                     Code = reader.ReadByte(),
-                    Arguments = new IArgument[reader.ReadByte()],
+                    Arguments = new Argument[reader.ReadByte()],
                     WTF = reader.ReadUInt16()
                 };
+                inst.Meta = yscm[inst.Code];
                 for (int j = 0; j < inst.Arguments.Length; j++)
                 {
                     inst.Arguments[j] = args.Dequeue();
@@ -146,13 +123,12 @@ namespace YuRIS.Script
             WTFData = reader.ReadBytes(wtfSize);
         }
 
-        public List<string> ExportString(YSCM OPCodes)
+        public List<string> ExportString()
         {
             var result = new List<string>();
             foreach (var code in Instructions)
             {
-                var op = OPCodes[code.Code];
-                if (op.Name == "WORD")
+                if (code.Meta.Name == "WORD")
                 {
                     if (code.Arguments.Length != 1)
                     {
@@ -168,13 +144,12 @@ namespace YuRIS.Script
             return result;
         }
 
-        public int Patch(YSCM OPCodes, List<string> patch)
+        public int Patch(List<string> patch)
         {
             int i = 0;
             foreach (var code in Instructions)
             {
-                var op = OPCodes[code.Code];
-                if (op.Name == "WORD")
+                if (code.Meta.Name == "WORD")
                 {
                     if (code.Arguments.Length != 1)
                     {
@@ -193,7 +168,7 @@ namespace YuRIS.Script
             return i;
         }
 
-        public void Write(BinaryWriter writer, YSCM scm)
+        public void Write(BinaryWriter writer)
         {
             writer.Write(new char[] { 'Y', 'S', 'T', 'B' });
             writer.Write(Engine);
@@ -217,7 +192,7 @@ namespace YuRIS.Script
                         argumenteWriter.Write(arg.Index);
                         argumenteWriter.Write(arg.Type);
                         argumenteWriter.Write(arg.RawData.Length);
-                        if (arg.RawData.Length == 0 || (scm[i.Code].Name == "RETURNCODE" && arg.RawData.Length == 1 && arg.RawData[0] == 'M'))
+                        if (arg.RawData.Length == 0 || (i.Meta.Name == "RETURNCODE" && arg.RawData.Length == 1 && arg.RawData[0] == 'M'))
                         {
                             argumenteWriter.Write(0);
                         }
@@ -244,32 +219,23 @@ namespace YuRIS.Script
             }
         }
 
-        public string Dump(YSCM OPCodes)
+        public string Dump()
         {
             var sb = new StringBuilder();
             string indent = "";
             foreach (var code in Instructions)
             {
-                var op = OPCodes[code.Code];
-                if (op.Name == "IFEND" || op.Name == "IFBLEND" || op.Name == "LOOPEND")
+                if (code.Meta.Name == "IFEND" || code.Meta.Name == "IFBLEND" || code.Meta.Name == "LOOPEND")
                 {
                     indent = indent.Substring(1);
                 }
                 sb.Append(indent);
-                if (op.Name == "GOSUB")
+                if (code.Meta.Name == "GOSUB")
                 {
                     sb.Append('\\').Append(code.Arguments[0].ToString().Trim('"')).Append("(");
                     for (int i = 1; i < code.Arguments.Length; i++)
                     {
-                        if (code.Arguments[i].Variable != null)
-                        {
-                            sb.Append(code.Arguments[i].Variable);
-                        }
-                        else
-                        {
-                            sb.Append(code.Arguments[i].ToString());
-                        }
-                        sb.Append(", ");
+                        sb.Append(code.Arguments[i].ToString()).Append(", ");
                     }
                     if (code.Arguments.Length > 1)
                     {
@@ -279,16 +245,12 @@ namespace YuRIS.Script
                 }
                 else
                 {
-                    sb.Append(op.Name).Append('[');
+                    sb.Append(code.Meta.Name).Append('[');
                     for (int i = 0; i < code.Arguments.Length; i++)
                     {
-                        if (op.Arguments.Count > code.Arguments[i].Index)
+                        if (code.Meta.Arguments.Count > code.Arguments[i].Index)
                         {
-                            sb.Append(op.Arguments[code.Arguments[i].Index].Name).Append('=');
-                        }
-                        if (code.Arguments[i].Variable != null)
-                        {
-                            sb.Append(code.Arguments[i].Variable);
+                            sb.Append(code.Meta.Arguments[code.Arguments[i].Index].Name).Append('=');
                         }
                         else
                         {
@@ -302,22 +264,12 @@ namespace YuRIS.Script
                     }
                     sb.Append("]\n");
                 }
-                if (op.Name == "IF" || op.Name == "ELSE" || op.Name == "LOOP")
+                if (code.Meta.Name == "IF" || code.Meta.Name == "ELSE" || code.Meta.Name == "LOOP")
                 {
                     indent += "\t";
                 }
             }
             return sb.ToString();
-        }
-
-        public class Instruction
-        {
-            public byte Code;
-            public ushort WTF;
-
-            public IArgument[] Arguments;
-
-            public override string ToString() => Code.ToString("X2") + " [" + string.Join(", ", Arguments.Select(a => a.ToString())) + "]";
         }
     }
 }

@@ -226,7 +226,7 @@ namespace YuRISTools
                     {
                         try
                         {
-                            result.Add(Path.GetFileNameWithoutExtension(file), new YSTB(reader).ExportString(yscm));
+                            result.Add(Path.GetFileNameWithoutExtension(file), new YSTB(reader, yscm).ExportString());
                             Log("[YSTB Text] Loaded: " + Path.GetFileName(file));
                             counter++;
                         }
@@ -273,11 +273,11 @@ namespace YuRISTools
                         {
                             try
                             {
-                                var ystb = new YSTB(reader);
-                                int tmp = ystb.Patch(yscm, p);
+                                var ystb = new YSTB(reader, yscm);
+                                int tmp = ystb.Patch(p);
                                 using (var writer = new BinaryWriter(File.Open(Path.Combine(textBox_ystb_text_output.Text, Path.GetFileName(file)), FileMode.Create)))
                                 {
-                                    ystb.Write(writer, yscm);
+                                    ystb.Write(writer);
                                 }
                                 Log("[YSTB Patch] Patched: " + Path.GetFileName(file) + ", " + tmp + " replaces");
                                 counter++;

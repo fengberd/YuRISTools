@@ -1,11 +1,10 @@
 ﻿using System.IO;
 using System.Text;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace YuRIS.Script
 {
-    public class YSCM : List<YSCM.OPCode>
+    public class YSCM : List<CodeMeta>
     {
         public uint Engine = 481;
 
@@ -35,54 +34,10 @@ namespace YuRIS.Script
             reader.ReadBytes(4);
             for (int i = 0; i < opcodeCount; i++)
             {
-                Add(new OPCode(reader, Encoding));
+                Add(new CodeMeta(reader, Encoding));
             }
 
             // TODO: Some error messages?
-        }
-
-        public class OPCode
-        {
-            public string Name;
-            public List<OPArgument> Arguments = new List<OPArgument>();
-
-            public OPCode(BinaryReader reader, Encoding encoding)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    byte b;
-                    while ((b = reader.ReadByte()) != 0)
-                    {
-                        ms.WriteByte(b);
-                    }
-                    Name = encoding.GetString(ms.ToArray());
-                    
-                    byte count = reader.ReadByte();
-                    for (int i = 0; i < count; i++)
-                    {
-                        ms.SetLength(0);
-                        while ((b = reader.ReadByte()) != 0)
-                        {
-                            ms.WriteByte(b);
-                        }
-                        Arguments.Add(new OPArgument()
-                        {
-                            Name = encoding.GetString(ms.ToArray()),
-                            WTF = reader.ReadUInt16()
-                        });
-                    }
-                }
-            }
-
-            public override string ToString() => Name + " (" + string.Join(", ", Arguments.Select(arg => arg.ToString())) + ")";
-        }
-
-        public class OPArgument
-        {
-            public string Name;
-            public ushort WTF;
-
-            public override string ToString() => WTF.ToString("X4") + " " + Name;
         }
     }
 }
