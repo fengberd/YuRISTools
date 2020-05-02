@@ -31,12 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox_old = new System.Windows.Forms.TextBox();
             this.textBox_current = new System.Windows.Forms.TextBox();
             this.listView_main = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.textBox_old = new System.Windows.Forms.TextBox();
             this.button_config = new System.Windows.Forms.Button();
             this.textBox_original = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -68,6 +68,17 @@
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Current Text";
+            // 
+            // textBox_old
+            // 
+            this.textBox_old.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox_old.Font = new System.Drawing.Font("宋体", 14F);
+            this.textBox_old.Location = new System.Drawing.Point(8, 20);
+            this.textBox_old.Multiline = true;
+            this.textBox_old.Name = "textBox_old";
+            this.textBox_old.ReadOnly = true;
+            this.textBox_old.Size = new System.Drawing.Size(524, 98);
+            this.textBox_old.TabIndex = 2;
             // 
             // textBox_current
             // 
@@ -111,17 +122,6 @@
             this.columnHeader3.Text = "New";
             this.columnHeader3.Width = 170;
             // 
-            // textBox_old
-            // 
-            this.textBox_old.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_old.Font = new System.Drawing.Font("宋体", 14F);
-            this.textBox_old.Location = new System.Drawing.Point(8, 20);
-            this.textBox_old.Multiline = true;
-            this.textBox_old.Name = "textBox_old";
-            this.textBox_old.ReadOnly = true;
-            this.textBox_old.Size = new System.Drawing.Size(524, 98);
-            this.textBox_old.TabIndex = 2;
-            // 
             // button_config
             // 
             this.button_config.Location = new System.Drawing.Point(18, 243);
@@ -138,7 +138,7 @@
             this.textBox_original.Name = "textBox_original";
             this.textBox_original.Size = new System.Drawing.Size(380, 21);
             this.textBox_original.TabIndex = 2;
-            this.textBox_original.Text = "D:\\Workspace\\MaggotBaits\\unpack\\bn\\ysbin_decrypted\\all.json";
+            this.textBox_original.Text = "..\\..\\..\\Scripts\\local\\all.json";
             // 
             // label2
             // 
@@ -155,7 +155,7 @@
             this.textBox_output.Name = "textBox_output";
             this.textBox_output.Size = new System.Drawing.Size(380, 21);
             this.textBox_output.TabIndex = 4;
-            this.textBox_output.Text = "D:\\Workspace\\MaggotBaits\\unpack\\bn\\ysbin_decrypted\\out.json";
+            this.textBox_output.Text = "..\\..\\..\\Scripts\\local\\patch.json";
             // 
             // label1
             // 

@@ -167,29 +167,25 @@ namespace YuRISTools
             {
                 var key = int.Parse(textBox_ystb_cipher_key.Text, NumberStyles.HexNumber);
                 var files = new List<string>();
-                var baseName = Path.GetFullPath(textBox_ystb_cipher_input.Text);
                 int counter = 0;
                 if (Directory.Exists(textBox_ystb_cipher_input.Text))
                 {
-                    files.AddRange(Directory.GetFiles(textBox_ystb_cipher_input.Text, "*.ybn", SearchOption.AllDirectories));
+                    files.AddRange(Directory.GetFiles(textBox_ystb_cipher_input.Text, "*.ybn", SearchOption.TopDirectoryOnly));
                 }
                 else
                 {
                     files.Add(textBox_ystb_cipher_input.Text);
-                    baseName = Path.GetDirectoryName(baseName);
                 }
-                baseName = baseName.TrimEnd('\\') + "\\";
                 foreach (var file in files)
                 {
-                    var name = file.Replace(baseName, "");
                     using (var reader = new BinaryReader(File.OpenRead(file)))
                     {
                         var data = YSTB.Cipher(reader, key);
                         if (data != null)
                         {
                             reader.Close();
-                            Log("[YSTB Cipher] Processed: " + name);
-                            var path = Path.Combine(textBox_ystb_cipher_output.Text, name);
+                            Log("[YSTB Cipher] Processed: " + Path.GetFileName(file));
+                            var path = Path.Combine(textBox_ystb_cipher_output.Text, Path.GetFileName(file));
                             Directory.CreateDirectory(Path.GetDirectoryName(path));
                             File.WriteAllBytes(path, data);
                             counter++;
