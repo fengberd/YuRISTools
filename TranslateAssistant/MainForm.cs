@@ -125,6 +125,16 @@ namespace TranslateAssistant
             return IntPtr.Zero;
         }
 
+        public void CommitCurrent()
+        {
+            listView_main.Groups[currentFile].Items[currentId].SubItems[2].Text = output[currentFile][currentId] = textBox_current.Text.Replace("\n", "").Replace("\r", "").Trim();
+
+            if (nextId >= 0)
+            {
+                SelectText(nextFile, nextId);
+            }
+        }
+
         public void SelectText(string file, int id, bool update = true)
         {
             currentId = id;
@@ -138,9 +148,9 @@ namespace TranslateAssistant
                 item.Selected = true;
                 item.EnsureVisible();
             }
-            if (id < output[file].Count)
+            if (++id < output[file].Count)
             {
-                nextId = id + 1;
+                nextId = id;
                 nextFile = file;
             }
             else
@@ -181,6 +191,8 @@ namespace TranslateAssistant
             button_config.Top = groupBox1.Visible ? 243 : 246;
         }
 
+        private void button_commit_Click(object sender, EventArgs e) => CommitCurrent();
+
         private void textBox_current_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -190,7 +202,7 @@ namespace TranslateAssistant
                 {
                     return;
                 }
-                if (GameWindow != IntPtr.Zero )
+                if (GameWindow != IntPtr.Zero)
                 {
                     SetForegroundWindow(GameWindow);
 
@@ -211,12 +223,7 @@ namespace TranslateAssistant
                     Thread.Sleep(100);
                     SetForegroundWindow(Handle);
                 }
-                listView_main.Groups[currentFile].Items[currentId].SubItems[2].Text = output[currentFile][currentId] = textBox_current.Text.Replace("\n", "").Replace("\r", "").Trim();
-
-                if (nextId >= 0)
-                {
-                    SelectText(nextFile, nextId);
-                }
+                CommitCurrent();
             }
         }
 

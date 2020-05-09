@@ -48,6 +48,7 @@
             this.button_save = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox_window = new System.Windows.Forms.TextBox();
+            this.button_commit = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -234,11 +235,22 @@
             this.textBox_window.TabIndex = 8;
             this.textBox_window.Text = "Maggot baits";
             // 
+            // button_commit
+            // 
+            this.button_commit.Location = new System.Drawing.Point(820, 11);
+            this.button_commit.Name = "button_commit";
+            this.button_commit.Size = new System.Drawing.Size(39, 22);
+            this.button_commit.TabIndex = 9;
+            this.button_commit.Text = "√";
+            this.button_commit.UseVisualStyleBackColor = true;
+            this.button_commit.Click += new System.EventHandler(this.button_commit_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 359);
+            this.Controls.Add(this.button_commit);
             this.Controls.Add(this.button_config);
             this.Controls.Add(this.listView_main);
             this.Controls.Add(this.groupBox2);
@@ -275,6 +287,7 @@
         private System.Windows.Forms.Button button_save;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox textBox_window;
+        private System.Windows.Forms.Button button_commit;
     }
 }
 
