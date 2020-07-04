@@ -144,11 +144,19 @@ namespace YuRIS.Script
                 {
                     result.Add(code.Arguments[0].GetString());
                 }
-                else if (code.Meta.Name == "GOSUB" && code.Arguments.Length == 2 && code.Arguments[0].EnsurePureString())
+                else if (code.Meta.Name == "GOSUB" && code.Arguments.Length >= 2 && code.Arguments[0].EnsurePureString())
                 {
                     switch (code.Arguments[0].GetString().ToLower())
                     {
                     case "es.sel.set":
+                        for (int i = 1; i < code.Arguments.Length; i++)
+                        {
+                            if (code.Arguments[i].EnsurePureString() && code.Arguments[i].GetString() != "")
+                            {
+                                result.Add(code.Arguments[i].GetString());
+                            }
+                        }
+                        break;
                     case "es.char.name":
                     case "es.char.name.mark.set":
                         if (code.Arguments[1].EnsurePureString())
@@ -193,11 +201,26 @@ namespace YuRIS.Script
                         break;
                     }
                 }
-                else if (code.Meta.Name == "GOSUB" && code.Arguments.Length == 2 && code.Arguments[0].EnsurePureString())
+                else if (code.Meta.Name == "GOSUB" && code.Arguments.Length >= 2 && code.Arguments[0].EnsurePureString())
                 {
                     switch (code.Arguments[0].GetString().ToLower())
                     {
                     case "es.sel.set":
+                        for (int j = 1; j < code.Arguments.Length; j++)
+                        {
+                            if (code.Arguments[j].EnsurePureString() && code.Arguments[j].GetString() != "")
+                            {
+                                if (patch[i] != null)
+                                {
+                                    code.Arguments[j].LoadString(patch[i]);
+                                }
+                                if (++i >= patch.Count)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        break;
                     case "es.char.name":
                     case "es.char.name.mark.set":
                         if (code.Arguments[1].EnsurePureString())
