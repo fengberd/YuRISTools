@@ -140,13 +140,23 @@ namespace YuRIS.Script
                     }
                     result.Add(code.Arguments[0].ToString());
                 }
-                else if (code.Meta.Name == "_" && code.Arguments.Length == 1 && code.Meta.Arguments[0].WTF == 0x03 && code.Arguments[0].RawData[0] == 'M')
+                else if (code.Meta.Name == "_" && code.Arguments.Length == 1 && code.Meta.Arguments[0].WTF == 0x03 && code.Arguments[0].EnsurePureString())
                 {
-                    if (BitConverter.ToUInt16(code.Arguments[0].RawData, 1) != code.Arguments[0].RawData.Length - 3)
+                    result.Add(code.Arguments[0].GetString());
+                }
+                else if (code.Meta.Name == "GOSUB" && code.Arguments.Length == 2 && code.Arguments[0].EnsurePureString())
+                {
+                    switch (code.Arguments[0].GetString().ToLower())
                     {
-                        throw new Exception("String length mismatch, there could be some control code within the call");
+                    case "es.sel.set":
+                    case "es.char.name":
+                    case "es.char.name.mark.set":
+                        if (code.Arguments[1].EnsurePureString())
+                        {
+                            result.Add(code.Arguments[1].GetString());
+                        }
+                        break;
                     }
-                    result.Add(Encoding.GetEncoding("SHIFT-JIS").GetString(code.Arguments[0].RawData).Substring(3));
                 }
             }
             return result;
@@ -172,25 +182,35 @@ namespace YuRIS.Script
                         break;
                     }
                 }
-                else if (code.Meta.Name == "_" && code.Arguments.Length == 1 && code.Meta.Arguments[0].WTF == 0x03 && code.Arguments[0].RawData[0] == 'M')
+                else if (code.Meta.Name == "_" && code.Arguments.Length == 1 && code.Meta.Arguments[0].WTF == 0x03 && code.Arguments[0].EnsurePureString())
                 {
-                    if (BitConverter.ToUInt16(code.Arguments[0].RawData, 1) != code.Arguments[0].RawData.Length - 3)
-                    {
-                        throw new Exception("String length mismatch, there could be some control code within the call");
-                    }
                     if (patch[i] != null)
                     {
-                        using (var ms = new MemoryStream())
-                        using (var writer = new BinaryWriter(ms))
-                        {
-                            writer.Write('M');
-                            writer.Write((ushort)patch[i].Length);
-                            writer.Write(Encoding.GetEncoding("SHIFT-JIS").GetBytes(patch[i]));
-                            code.Arguments[0].RawData = ms.ToArray();
-                        }
+                        code.Arguments[0].LoadString(patch[i]);
                     }
                     if (++i >= patch.Count)
                     {
+                        break;
+                    }
+                }
+                else if (code.Meta.Name == "GOSUB" && code.Arguments.Length == 2 && code.Arguments[0].EnsurePureString())
+                {
+                    switch (code.Arguments[0].GetString().ToLower())
+                    {
+                    case "es.sel.set":
+                    case "es.char.name":
+                    case "es.char.name.mark.set":
+                        if (code.Arguments[1].EnsurePureString())
+                        {
+                            if (patch[i] != null)
+                            {
+                                code.Arguments[1].LoadString(patch[i]);
+                            }
+                            if (++i >= patch.Count)
+                            {
+                                break;
+                            }
+                        }
                         break;
                     }
                 }
