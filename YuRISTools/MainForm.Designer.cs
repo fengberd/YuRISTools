@@ -66,9 +66,9 @@
             this.label14 = new System.Windows.Forms.Label();
             this.textBox_ystb_text_input = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.button_ystb_magic = new System.Windows.Forms.Button();
+            this.button_ystb_crc32_key = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox_ystb_magic = new System.Windows.Forms.TextBox();
+            this.textBox_ystb_crc32 = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBox_ystb_cipher_key = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -488,25 +488,25 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.button_ystb_magic);
+            this.groupBox4.Controls.Add(this.button_ystb_crc32_key);
             this.groupBox4.Controls.Add(this.label11);
-            this.groupBox4.Controls.Add(this.textBox_ystb_magic);
+            this.groupBox4.Controls.Add(this.textBox_ystb_crc32);
             this.groupBox4.Location = new System.Drawing.Point(6, 6);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(604, 47);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Magic32 Key Compute";
+            this.groupBox4.Text = "CRC32 Key Compute";
             // 
-            // button_ystb_magic
+            // button_ystb_crc32_key
             // 
-            this.button_ystb_magic.Location = new System.Drawing.Point(504, 20);
-            this.button_ystb_magic.Name = "button_ystb_magic";
-            this.button_ystb_magic.Size = new System.Drawing.Size(94, 21);
-            this.button_ystb_magic.TabIndex = 17;
-            this.button_ystb_magic.Text = "Magic && Fill";
-            this.button_ystb_magic.UseVisualStyleBackColor = true;
-            this.button_ystb_magic.Click += new System.EventHandler(this.button_ystb_magic_Click);
+            this.button_ystb_crc32_key.Location = new System.Drawing.Point(504, 20);
+            this.button_ystb_crc32_key.Name = "button_ystb_crc32_key";
+            this.button_ystb_crc32_key.Size = new System.Drawing.Size(94, 21);
+            this.button_ystb_crc32_key.TabIndex = 17;
+            this.button_ystb_crc32_key.Text = "Hash && Fill";
+            this.button_ystb_crc32_key.UseVisualStyleBackColor = true;
+            this.button_ystb_crc32_key.Click += new System.EventHandler(this.button_ystb_crc32_key_Click);
             // 
             // label11
             // 
@@ -517,15 +517,15 @@
             this.label11.TabIndex = 13;
             this.label11.Text = "Input:";
             // 
-            // textBox_ystb_magic
+            // textBox_ystb_crc32
             // 
-            this.textBox_ystb_magic.AllowDrop = true;
-            this.textBox_ystb_magic.Location = new System.Drawing.Point(53, 20);
-            this.textBox_ystb_magic.Name = "textBox_ystb_magic";
-            this.textBox_ystb_magic.Size = new System.Drawing.Size(445, 21);
-            this.textBox_ystb_magic.TabIndex = 12;
-            this.textBox_ystb_magic.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
-            this.textBox_ystb_magic.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
+            this.textBox_ystb_crc32.AllowDrop = true;
+            this.textBox_ystb_crc32.Location = new System.Drawing.Point(53, 20);
+            this.textBox_ystb_crc32.Name = "textBox_ystb_crc32";
+            this.textBox_ystb_crc32.Size = new System.Drawing.Size(445, 21);
+            this.textBox_ystb_crc32.TabIndex = 12;
+            this.textBox_ystb_crc32.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_DragDrop);
+            this.textBox_ystb_crc32.DragOver += new System.Windows.Forms.DragEventHandler(this.textBox_DragOver);
             // 
             // groupBox3
             // 
@@ -701,9 +701,9 @@
         private System.Windows.Forms.TextBox textBox_ystb_cipher_key;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Button button_ystb_magic;
+        private System.Windows.Forms.Button button_ystb_crc32_key;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox_ystb_magic;
+        private System.Windows.Forms.TextBox textBox_ystb_crc32;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Button button_ystb_text_export;
         private System.Windows.Forms.Label label14;

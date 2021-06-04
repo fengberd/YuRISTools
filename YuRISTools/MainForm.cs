@@ -156,9 +156,9 @@ namespace YuRISTools
             catch (Exception ex) { Oops(ex); }
         }
 
-        private void button_ystb_magic_Click(object sender, EventArgs e)
+        private void button_ystb_crc32_key_Click(object sender, EventArgs e)
         {
-            textBox_ystb_cipher_key.Text = CheckSum.Magic32(textBox_ystb_magic.Text).ToString("X8");
+            textBox_ystb_cipher_key.Text = CheckSum.CRC32(Encoding.UTF8.GetBytes(textBox_ystb_crc32.Text)).ToString("X8");
         }
 
         private void button_ystb_cipher_Click(object sender, EventArgs e)
